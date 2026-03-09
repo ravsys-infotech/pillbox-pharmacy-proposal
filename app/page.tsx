@@ -3,10 +3,10 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Check, ChevronLeft, ChevronRight, Zap, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
-import { 
-  Module1Right, Module2Right, Module3Right, Module4Right, Module5Right, 
-  Module6Right, Module7Right, Module8Right, Module9Right, Module10Right, 
-  Module11Right, Module12Right, Module13Right, Module14Right, Module15Right, 
+import {
+  Module1Right, Module2Right, Module3Right, Module5Right,
+  Module6Right, Module7Right, Module8Right, Module9Right, Module10Right,
+  Module11Right, Module12Right, Module13Right, Module14Right, Module15Right,
   Module16Right, Module17Right, Module18Right
 } from './modules';
 
@@ -31,8 +31,8 @@ const MODULES = [
   },
   {
     id: 3,
-    navLabel: "Project Modules",
-    title: "Project Modules",
+    navLabel: "Project Modules & Features",
+    title: "Project Modules & Features",
     subtitle: "A modular commerce architecture — 16 independently deployable micro-modules for maximum resilience.",
     features: ["16 Core Modules", "API-First Architecture", "Bi-directional Sync", "Zero-Trust Security"],
     insight: "Each module is independently deployable — a failure in notifications never touches checkout.",
@@ -40,15 +40,6 @@ const MODULES = [
   },
   {
     id: 4,
-    navLabel: "Module Wise Features",
-    title: "Module Wise Features",
-    subtitle: "A granular breakdown of every capability across all 16 modules — nothing is assumed, everything is specified.",
-    features: ["90+ Functional Requirements", "Traceability by Module", "Admin Controls per Feature", "Edge Cases Covered"],
-    insight: "Every feature in this platform maps to a documented requirement ID — no scope ambiguity, no surprise gaps at handover.",
-    panel: Module4Right
-  },
-  {
-    id: 5,
     navLabel: "Transformation Overview",
     title: "Transformation Overview",
     subtitle: "From a fragmented WooCommerce setup to a purpose-built, intelligent pharmacy commerce platform.",
@@ -57,7 +48,7 @@ const MODULES = [
     panel: Module5Right
   },
   {
-    id: 6,
+    id: 5,
     navLabel: "Storefront & Catalog",
     title: "Storefront & Catalog",
     subtitle: "A high-conversion, mobile-first commerce experience — built for pharmacy browsing behavior.",
@@ -66,7 +57,7 @@ const MODULES = [
     panel: Module6Right
   },
   {
-    id: 7,
+    id: 6,
     navLabel: "Search & Discovery",
     title: "Search & Discovery",
     subtitle: "Intelligent semantic search — understands intent, tolerates typos, surfaces the right product every time.",
@@ -75,7 +66,7 @@ const MODULES = [
     panel: Module7Right
   },
   {
-    id: 8,
+    id: 7,
     navLabel: "Loyalty & Accounts",
     title: "Loyalty & Accounts",
     subtitle: "A retention-driving loyalty ecosystem — earning, redeeming, and referring, all in one dashboard.",
@@ -84,7 +75,7 @@ const MODULES = [
     panel: Module8Right
   },
   {
-    id: 9,
+    id: 8,
     navLabel: "Checkout & Payments",
     title: "Checkout & Payments",
     subtitle: "A secure, frictionless checkout — RazorPay-powered, loyalty-integrated, with auto-applied best discount.",
@@ -93,7 +84,7 @@ const MODULES = [
     panel: Module9Right
   },
   {
-    id: 10,
+    id: 9,
     navLabel: "Inventory Sync",
     title: "Inventory Sync",
     subtitle: "Real-time bi-directional synchronization — your MSSQL warehouse data, live on the website at all times.",
@@ -102,7 +93,7 @@ const MODULES = [
     panel: Module10Right
   },
   {
-    id: 11,
+    id: 10,
     navLabel: "Orders & Automation",
     title: "Orders & Automation",
     subtitle: "End-to-end order lifecycle automation — from placement to delivery, with WhatsApp at every step.",
@@ -111,7 +102,7 @@ const MODULES = [
     panel: Module11Right
   },
   {
-    id: 12,
+    id: 11,
     navLabel: "AI Catalog Engine",
     title: "AI Catalog Engine",
     subtitle: "AI-accelerated migration of 2,000+ products — enriched, tagged, described, and SEO-optimized automatically.",
@@ -120,7 +111,7 @@ const MODULES = [
     panel: Module12Right
   },
   {
-    id: 13,
+    id: 12,
     navLabel: "Admin Ecosystem",
     title: "Admin Ecosystem",
     subtitle: "A centralized command center — manage every aspect of the platform without touching code.",
@@ -129,7 +120,7 @@ const MODULES = [
     panel: Module13Right
   },
   {
-    id: 14,
+    id: 13,
     navLabel: "SEO & Content",
     title: "SEO & Content",
     subtitle: "Best-in-class technical SEO baked into the architecture — not bolted on as an afterthought.",
@@ -138,7 +129,7 @@ const MODULES = [
     panel: Module14Right
   },
   {
-    id: 15,
+    id: 14,
     navLabel: "Jobs Portal",
     title: "Jobs Portal",
     subtitle: "An integrated careers platform — from job listing to candidate management, fully within the Pillbox ecosystem.",
@@ -147,7 +138,7 @@ const MODULES = [
     panel: Module15Right
   },
   {
-    id: 16,
+    id: 15,
     navLabel: "Security & Infra",
     title: "Security & Infra",
     subtitle: "Production-grade infrastructure with zero-trust security, PCI compliance, and 99.9% uptime architecture.",
@@ -156,7 +147,7 @@ const MODULES = [
     panel: Module16Right
   },
   {
-    id: 17,
+    id: 16,
     navLabel: "Roadmap & Costs",
     title: "Roadmap & Costs",
     subtitle: "A transparent 6-month delivery roadmap with milestone-locked payments — you pay for working software, not promises.",
@@ -165,7 +156,7 @@ const MODULES = [
     panel: Module17Right
   },
   {
-    id: 18,
+    id: 17,
     navLabel: "Thank You",
     title: "Let's Build Together.",
     subtitle: "This proposal represents our complete vision for Pillbox's digital commerce platform.",
@@ -278,7 +269,7 @@ export default function ProposalApp() {
               <Menu className="w-6 h-6" />
             </button>
             <div>
-              <div className="text-[14px] font-bold text-[#1A1A1A]">RAVSYS Infotech LLP</div>
+              <div className="text-[14px] font-bold text-[#1A1A1A]">RAVSYS INFOTECH LLP</div>
               <div className="text-[10px] text-[#6B7280] font-semibold tracking-wider uppercase mt-0.5 hidden sm:block">PILLBOX E-COMMERCE PROPOSAL</div>
             </div>
           </div>
@@ -296,7 +287,7 @@ export default function ProposalApp() {
               disabled={activeModuleIndex === MODULES.length - 1}
               className="bg-gradient-to-r from-[#3B82F6] via-[#8B5CF6] to-[#EC4899] text-white px-6 py-3 rounded-xl text-[13px] font-bold shadow-md hover:opacity-90 transition-all flex items-center disabled:bg-none disabled:bg-[#D1D5DB] disabled:text-[#9CA3AF] disabled:shadow-none disabled:cursor-not-allowed disabled:opacity-100"
             >
-              NEXT STEP <ChevronRight className="w-4 h-4 ml-1.5" />
+              Next <ChevronRight className="w-4 h-4 ml-1.5" />
             </button>
           </div>
         </div>
