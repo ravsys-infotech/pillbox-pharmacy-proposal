@@ -1,8 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Check, Search, ShoppingBag, Database, Zap, Copy, CheckCircle2, Clock, Star, Edit2, FileText, ArrowRight, Upload, Shield, Server, Lock, Globe } from 'lucide-react';
+import React, { useState, useRef, useCallback } from 'react';
+import { Check, Search, ShoppingBag, Database, Zap, Copy, CheckCircle2, Clock, Star, Edit2, FileText, ArrowRight, Upload, Shield, Server, Lock, Globe, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export const Module1Right = () => (
   <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] p-8 w-full max-w-md mx-auto">
@@ -24,10 +25,11 @@ export const Module1Right = () => (
     <div className="pt-5 border-t border-[#E5E7EB]">
       <h4 className="text-[10px] uppercase tracking-wider text-[#6B7280] font-bold mb-3 text-center">Tech Stack Snapshot</h4>
       <div className="flex flex-wrap justify-center gap-2">
-        {["Next.js", "Node.js", "PostgreSQL", "Typesense", "RazorPay", "Payload CMS"].map(tech => (
+        {["Next.js", "Node.js", "PostgreSQL", "Typesense", "RazorPay", "Payload CMS", "PostHog"].map(tech => (
           <span key={tech} className="bg-[#F3F4F6] text-[#1A1A1A] text-[11px] font-semibold px-3 py-1.5 rounded-full border border-[#E5E7EB]">{tech}</span>
         ))}
       </div>
+      <p className="text-[11px] text-[#9CA3AF] italic mt-2 text-center">* Final technology choices will be confirmed during the architecture phase based on project requirements and vendor evaluation.</p>
     </div>
   </div>
 );
@@ -48,7 +50,7 @@ export const Module2Right = () => {
             <motion.div key="tab1" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
               <h4 className="font-bold text-[#1A1A1A] mb-5 text-[14px]">CORE COMMERCE PLATFORM</h4>
               <ul className="space-y-4">
-                {["Mobile-First Storefront", "Secure Checkout & RazorPay Integration", "MSSQL Bi-Directional Inventory Sync", "Order Management & Fulfillment Admin", "User Authentication & Account Management"].map((item, i) => (
+                {["Mobile-First Storefront", "Secure Checkout & RazorPay Integration", "Semantic Search with Typo Tolerance", "Order Management & Fulfillment Admin", "User Authentication & Account Management"].map((item, i) => (
                   <li key={i} className="flex items-start text-[14px] text-[#6B7280] leading-relaxed">
                     <span className="text-[#8B5CF6] mr-3 mt-0.5 text-lg leading-none">•</span> {item}
                   </li>
@@ -59,7 +61,7 @@ export const Module2Right = () => {
             <motion.div key="tab2" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} transition={{ duration: 0.2 }}>
               <h4 className="font-bold text-[#1A1A1A] mb-5 text-[14px]">GROWTH & INTELLIGENCE LAYER</h4>
               <ul className="space-y-4">
-                {["AI Catalog Engine & Semantic Search", "Loyalty Points & Referral System", "WhatsApp Notification Automation", "SEO & Headless CMS", "Jobs Portal & Candidate Dashboard"].map((item, i) => (
+                {["Live MSSQL Bi-Directional Inventory Sync", "Dynamic Faceted Filtering", "AI Catalog Engine & Search Enrichment", "Loyalty Points & Referral System", "WhatsApp Notification Automation", "SEO & Headless CMS", "Product Recommendations & Cross-Sell Engine", "Jobs Portal & Candidate Dashboard"].map((item, i) => (
                   <li key={i} className="flex items-start text-[14px] text-[#6B7280] leading-relaxed">
                     <span className="text-[#EC4899] mr-3 mt-0.5 text-lg leading-none">•</span> {item}
                   </li>
@@ -73,18 +75,182 @@ export const Module2Right = () => {
   );
 };
 
+const MODULE_DATA: Record<string, { description: string; badges: string[] }> = {
+  STOREFRONT: {
+    description: "The customer-facing shell of the entire platform. Built mobile-first as a Progressive Web App, the Storefront delivers the homepage experience \u2014 promotional banners with scheduled campaigns, Featured Products, Popular Categories, and a Shop by Brands slider. Navigation is fully accessible via a hamburger menu across all devices and browsers. Every surface is optimised for smartphone users first, with full compatibility across Chrome, Safari, Firefox, and Edge.",
+    badges: ["FR-120", "FR-121", "FR-122", "FR-123", "FR-124", "NFR-10", "NFR-11"],
+  },
+  CATALOG: {
+    description: "The foundation of the entire platform. All 2,000+ products are migrated from the existing website and run through an AI pipeline that generates clean, SEO-optimised descriptions, assigns categories, tags, health concern labels, gender attributes, and search keywords to every SKU. Product images are automatically resized and background-removed for a uniform, professional appearance. Nothing goes live without a human review \u2014 every AI-generated output passes through a mandatory admin approval workflow before publishing. Admins have full ongoing control to create, edit, and delete products, categories, brands, and tags at any time.",
+    badges: ["FR-701", "FR-702", "FR-703", "FR-704", "FR-705", "FR-710", "FR-711", "FR-712", "FR-713"],
+  },
+  DISCOVERY: {
+    description: "Customers can find what they need even when they don\u2019t know exactly what to search for. The search engine understands natural language, tolerates typos, and returns relevant results in under 300ms. Filters update dynamically based on what\u2019s on screen \u2014 searching \u2018Shampoo\u2019 only shows hair-related filters. When no results match, related products are shown instead of a blank page. Structured browsing pages let customers shop by Category, Brand, Health Concern, Gender, and Best Sellers. Admins can boost specific products or brands for any search term.",
+    badges: ["FR-201", "FR-202", "FR-203", "FR-204", "FR-205", "FR-206", "FR-210", "FR-211", "FR-212", "FR-213", "FR-214", "NFR-03"],
+  },
+  RECOMMENDATIONS: {
+    description: "Intelligently surfaces the right products at the right moment to increase basket size. On every Product Detail Page, customers see Frequently Bought Together items drawn from real order history, and Similar Products based on shared ingredients or use cases. On the main cart page, two recommendation layers activate \u2014 low-cost impulse-buy suggestions and complementary items based on what\u2019s already in the cart. Recommendations are deliberately absent from the mini cart and checkout to keep those flows distraction-free.",
+    badges: ["FR-103", "FR-104", "FR-112", "FR-113"],
+  },
+  RETENTION: {
+    description: "Turns one-time buyers into repeat customers. Every qualifying purchase earns Pillbox Points, visible on a dedicated loyalty dashboard in the customer\u2019s account. Points are redeemable as a direct discount at checkout \u2014 no monetary value is stored, keeping the system outside RBI regulatory scope. A referral engine gives every customer a unique shareable link \u2014 when a referred friend makes their first purchase, both parties receive a coupon reward. All earning rules and reward values are fully configurable by the admin. The best available discount is automatically applied at checkout without the customer needing to enter a code.",
+    badges: ["FR-320", "FR-321", "FR-322", "FR-404"],
+  },
+  ACCOUNTS: {
+    description: "Every customer gets a secure, personalised account. Registration and login are supported via Google, Facebook, Phone OTP, and Email/Password. Visitors can browse and add to cart freely \u2014 login is only required at checkout. Once logged in, customers manage their profile, save multiple shipping addresses, and access their complete order history. Any past order can be reordered in a single click, adding all items directly to the current cart.",
+    badges: ["FR-301", "FR-302", "FR-310", "FR-311", "FR-312", "FR-313"],
+  },
+  INVENTORY: {
+    description: "Bridges the digital storefront with Pillbox\u2019s existing Windows-based inventory system. Stock levels across all warehouse and store locations are synced in real time, ensuring what\u2019s shown online accurately reflects what\u2019s physically available \u2014 preventing overselling. Each product can have an admin-configured stock buffer that holds back units for walk-in customers. When an order is placed, the system automatically routes it to the nearest warehouse with available stock based on the customer\u2019s delivery address, with re-allocation support if the assigned warehouse changes.",
+    badges: ["FR-501", "FR-502", "FR-503", "FR-504", "FR-505"],
+  },
+  ORDERS: {
+    description: "Covers the complete journey from cart to delivered order. Visitors can add items to cart without logging in \u2014 authentication is only required at the point of checkout. The cart is accessible as a slide-out mini drawer or a full cart page with quantity controls and subtotal view. Checkout is powered by RazorPay, supporting UPI, credit and debit cards, and net banking, with Loyalty Points redeemable as a partial payment. Shipping costs and estimated delivery times are calculated live based on the customer\u2019s address and the nearest stocked warehouse. Post-purchase, customers can track their order in real time via a self-service tracking page or directly from their order history. The platform is built to integrate with multiple shipping carriers for rate calculation, label generation, and pickup scheduling. A Contact Us page captures medical queries, order assistance requests, and B2B leads directly into the admin panel.",
+    badges: ["FR-105", "FR-110", "FR-111", "FR-401", "FR-402", "FR-403", "FR-405", "FR-601", "FR-602", "FR-620", "FR-621", "FR-630"],
+  },
+  NOTIFICATIONS: {
+    description: "Keeps customers informed at every stage of their order without any manual effort. Automated one-way WhatsApp messages are triggered at Order Confirmed, Shipped, Out for Delivery, and Delivered. A PDF invoice is generated and sent via WhatsApp on confirmation. If a payment fails, a prompt is sent immediately to encourage retry. Abandoned carts trigger a recovery reminder to bring customers back. A delivery tracking link is also dispatched automatically. Separately, an email newsletter subscription form connects to an email marketing service for campaigns and promotions.",
+    badges: ["FR-610", "FR-611", "FR-612", "FR-613", "FR-614", "FR-615", "FR-805", "FR-903"],
+  },
+  ADMIN: {
+    description: "The single backstage interface for the entire platform. Admins manage products, categories, brands, tags, banners, promotions, coupons, loyalty rules, stock buffers, and search boosts from one centralised panel. AI-generated catalog content sits in a review queue awaiting human approval before anything goes live. Contact form submissions are stored and accessible. The candidate pipeline for job applications is fully managed here. Every configurable aspect of the platform \u2014 from homepage layout to fulfillment rules \u2014 is controlled through the Admin panel.",
+    badges: ["FR-204", "FR-321", "FR-322", "FR-503", "FR-630", "FR-704", "FR-705", "FR-710", "FR-711", "FR-712", "FR-713", "FR-904"],
+  },
+  CMS: {
+    description: "Gives the Pillbox team full control over content without touching a line of code. A headless CMS powers blog posts, wellness articles, and marketing pages \u2014 publishable by non-technical staff at any time. Every product, category, and content page has editable meta titles and meta descriptions. Open Graph tags are applied across the board, ensuring rich, branded previews when links are shared on WhatsApp, Facebook, or any social platform.",
+    badges: ["FR-801", "FR-803", "FR-804"],
+  },
+  TALENT: {
+    description: "A self-contained recruitment system built into the platform. A public Careers page lists open positions organised by department \u2014 Pharmacist, Logistics, Admin, and more. Each listing has its own detail page with an online application form that accepts CV uploads. Applicants receive an automated confirmation email on submission. Listings automatically expire when positions are filled or dates pass. The admin panel includes a full candidate dashboard to sort, filter, and track every applicant through the pipeline.",
+    badges: ["FR-901", "FR-902", "FR-903", "FR-904", "FR-905"],
+  },
+  SEO: {
+    description: "Search engine discoverability is built into the platform from the ground up, not added at the end. Every product page has an SEO-friendly URL, meta title, meta description, and Open Graph tags. Product Schema structured data exposes pricing, availability, and ratings directly in Google search results. AI-generated descriptions and keywords are optimised for organic discoverability at the product level. XML sitemaps are automatically generated and kept current as new products are added. The platform is built to meet Core Web Vitals standards, a direct ranking factor for Google.",
+    badges: ["FR-102", "FR-802", "FR-803", "FR-804", "FR-806", "FR-807"],
+  },
+  ANALYTICS: {
+    description: "Two complementary analytics layers working in parallel. Google Analytics 4 and Google Tag Manager handle marketing attribution, campaign tracking, conversion funnels, and audience insights \u2014 feeding into the broader Google ecosystem. PostHog sits alongside it as a product analytics layer, capturing session recordings, user behaviour flows, feature usage, and retention cohorts. Together they give the Pillbox team a complete picture of both marketing performance and product experience, with the data needed to make informed decisions at every stage.",
+    badges: [],
+  },
+  SECURITY: {
+    description: "Security is not a feature \u2014 it is a baseline. All user data including personal information and loyalty balances is encrypted at rest and in transit. Payment processing is PCI-DSS compliant end to end via RazorPay. The platform is hardened against the OWASP Top 10 \u2014 SQL injection, XSS, CSRF, and related attack vectors. User sessions are managed with secure tokens, appropriate expiry windows, and refresh mechanisms to prevent unauthorised access.",
+    badges: ["NFR-04", "NFR-05", "NFR-06", "NFR-07"],
+  },
+  INFRASTRUCTURE: {
+    description: "The backbone that everything else runs on. The platform is architected to support a minimum of 10,000 monthly active users from launch, with horizontal scaling built in to grow well beyond that as Pillbox expands. Page load targets are under 3 seconds on a standard 4G mobile connection across all primary flows. Uptime targets 99.9% availability. The codebase is written to clean architecture principles with clear separation of concerns, comprehensive API documentation, and a structure designed for seamless handover to any future development team.",
+    badges: ["NFR-01", "NFR-02", "NFR-08", "NFR-09", "NFR-12", "NFR-13"],
+  },
+};
+
+const TILE_MODULES = [
+  { name: "STOREFRONT", sub: "Mobile-First PWA" }, { name: "CATALOG", sub: "AI Enrichment Engine" }, { name: "DISCOVERY", sub: "Semantic Search Engine" }, { name: "RECOMMENDATIONS", sub: "Conversion Engine" },
+  { name: "RETENTION", sub: "Loyalty & Referral Engine" }, { name: "ACCOUNTS", sub: "Profiles & Authentication" }, { name: "INVENTORY", sub: "MSSQL Sync Engine" }, { name: "ORDERS", sub: "Checkout & Fulfillment Engine" },
+  { name: "NOTIFICATIONS", sub: "WhatsApp Automation Engine" }, { name: "ADMIN", sub: "Command & Control" }, { name: "CMS", sub: "Headless Content Engine" }, { name: "TALENT", sub: "Careers Portal" },
+  { name: "SEO", sub: "Visibility Engine" }, { name: "ANALYTICS", sub: "GA4, Tag Manager & PostHog" }, { name: "SECURITY", sub: "PCI Hardening Layer" }, { name: "INFRASTRUCTURE", sub: "Performance & Reliability Layer" },
+];
+
 export const Module3Right = () => {
-  const modules = [
-    { name: "STOREFRONT", sub: "Mobile-First PWA" }, { name: "PAYMENT", sub: "Razorpay Secure" }, { name: "INVENTORY", sub: "MSSQL Bridge" }, { name: "DISCOVERY", sub: "Semantic AI" },
-    { name: "LOYALTY", sub: "Retention Loop" }, { name: "AUTOMATION", sub: "Lifecycle Flows" }, { name: "CMS", sub: "Headless Content" }, { name: "ANALYTICS", sub: "BI Dashboard" },
-    { name: "SECURITY", sub: "PCI Hardening" }, { name: "CATALOG", sub: "AI Enrichment" }, { name: "ORDERS", sub: "Fulfillment" }, { name: "TALENT", sub: "Jobs Portal" },
-    { name: "SEO", sub: "Core Vitals" }, { name: "NOTIFICATIONS", sub: "WhatsApp API" }, { name: "ADMIN", sub: "Global Control" }, { name: "ARCHIVING", sub: "Order History" }
-  ];
+  const [activeTile, setActiveTile] = useState<number | null>(null);
+  const [view, setView] = useState<'grid' | 'drawer'>('grid');
+  const [animState, setAnimState] = useState<'idle' | 'grid-out' | 'drawer-in' | 'drawer-out' | 'grid-in'>('idle');
+  const [flashedTile, setFlashedTile] = useState<number | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>(null);
+  const isMobile = useIsMobile();
+  const slideY = isMobile ? '8px' : '12px';
+
+  const handleTileClick = useCallback((i: number) => {
+    if (animState !== 'idle') return;
+    setFlashedTile(i);
+    setTimeout(() => {
+      setFlashedTile(null);
+      setActiveTile(i);
+      setAnimState('grid-out');
+      timerRef.current = setTimeout(() => {
+        setView('drawer');
+        setAnimState('drawer-in');
+        timerRef.current = setTimeout(() => {
+          setAnimState('idle');
+        }, 220);
+      }, 180);
+    }, 100);
+  }, [animState]);
+
+  const handleClose = useCallback(() => {
+    if (animState !== 'idle') return;
+    setAnimState('drawer-out');
+    timerRef.current = setTimeout(() => {
+      setView('grid');
+      setAnimState('grid-in');
+      timerRef.current = setTimeout(() => {
+        setAnimState('idle');
+        setActiveTile(null);
+      }, 220);
+    }, 180);
+  }, [animState]);
+
+  const gridStyle: React.CSSProperties =
+    animState === 'grid-out'
+      ? { opacity: 0, transform: 'scale(0.97)', transition: 'opacity 180ms ease-in, transform 180ms ease-in' }
+      : animState === 'grid-in'
+      ? { opacity: 1, transform: 'scale(1)', transition: 'opacity 220ms ease-out, transform 220ms ease-out' }
+      : view === 'grid' && animState === 'idle'
+      ? { opacity: 1, transform: 'scale(1)' }
+      : { opacity: 0, transform: 'scale(0.97)' };
+
+  const drawerStyle: React.CSSProperties =
+    animState === 'drawer-in'
+      ? { opacity: 1, transform: 'translateY(0)', transition: 'opacity 220ms ease-out, transform 220ms ease-out' }
+      : animState === 'drawer-out'
+      ? { opacity: 0, transform: `translateY(${slideY})`, transition: 'opacity 180ms ease-in, transform 180ms ease-in' }
+      : view === 'drawer' && animState === 'idle'
+      ? { opacity: 1, transform: 'translateY(0)' }
+      : { opacity: 0, transform: `translateY(${slideY})` };
+
+  if (view === 'drawer' && activeTile !== null) {
+    const tile = TILE_MODULES[activeTile];
+    const data = MODULE_DATA[tile.name];
+    return (
+      <div style={drawerStyle} className="bg-[#0F0F1A] rounded-[16px] w-full max-w-2xl mx-auto overflow-hidden flex flex-col h-full md:h-[520px]">
+        <div className="p-5 flex items-center justify-between shrink-0">
+          <div>
+            <h3 className="text-[18px] font-bold text-white">{tile.name}</h3>
+            <div className="text-[13px] text-[#A78BFA]">{tile.sub}</div>
+          </div>
+          <button onClick={handleClose} className="text-[#6B7280] hover:text-white transition-colors p-1">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+        <div className="border-b border-[#1E1B3A]" />
+        <div className="flex-1 overflow-y-auto p-5 hide-scrollbar">
+          <p className="text-[14px] text-[#E5E7EB] leading-[1.7]">{data.description}</p>
+          <div className="border-b border-[#1E1B3A] my-4" />
+          {data.badges.length > 0 ? (
+            <>
+              <div className="text-[10px] uppercase tracking-[0.12em] text-[#22C55E] font-semibold mb-3">Requirements Covered</div>
+              <div className="flex flex-wrap gap-2">
+                {data.badges.map((badge) => (
+                  <span key={badge} className="bg-[#2D1B69] text-[#A78BFA] text-[11px] font-semibold px-2.5 py-1 rounded-full">{badge}</span>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="text-[13px] text-[#A78BFA] italic leading-[1.6]">Analytics tooling will be finalised during the architecture phase.</p>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-[#0F0F1A] rounded-[16px] w-full max-w-2xl mx-auto h-full overflow-hidden p-[20px] flex flex-col">
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-[8px] md:gap-[10px] flex-1">
-        {modules.map((m, i) => (
-          <div key={i} className="bg-[#1E1B3A] border border-[#2D2B4E] rounded-[10px] px-[10px] py-[12px] flex flex-col items-center justify-center text-center min-h-[80px] transition-all duration-200 hover:border-[#7C3AED] hover:shadow-[0_0_0_2px_rgba(124,58,237,0.3)] cursor-pointer">
+    <div style={gridStyle} className="bg-[#0F0F1A] rounded-[16px] w-full max-w-2xl mx-auto h-full overflow-hidden p-[20px] flex flex-col">
+      <div className="grid grid-cols-2 gap-[8px] md:gap-[10px] flex-1">
+        {TILE_MODULES.map((m, i) => (
+          <div
+            key={i}
+            onClick={() => handleTileClick(i)}
+            className="border border-[#2D2B4E] rounded-[10px] px-[10px] py-[12px] flex flex-col items-center justify-center text-center min-h-[80px] transition-all duration-200 hover:border-[#7C3AED] hover:shadow-[0_0_0_2px_rgba(124,58,237,0.3)] cursor-pointer"
+            style={{ backgroundColor: flashedTile === i ? '#2D1B69' : '#1E1B3A', transition: 'background-color 100ms ease' }}
+          >
             <div className="text-[11px] font-bold text-white tracking-[0.05em]">{m.name}</div>
             <div className="text-[10px] text-[#A78BFA] mt-1 leading-[1.3]">{m.sub}</div>
           </div>
@@ -94,56 +260,30 @@ export const Module3Right = () => {
   );
 };
 
-export const Module4Right = () => (
-  <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] w-full max-w-xl mx-auto overflow-hidden h-[500px] flex flex-col">
-    <div className="p-4 border-b border-[#E5E7EB] bg-[#F9FAFB] flex text-[11px] font-bold text-[#6B7280] uppercase tracking-wider">
-      <div className="w-1/3 pl-2">Module</div>
-      <div className="w-1/2">Key Features</div>
-      <div className="w-1/6 text-center">Req Count</div>
-    </div>
-    <div className="flex-1 overflow-y-auto hide-scrollbar p-2">
-      {[
-        ["Storefront", "PDP, Cart, Homepage, Banners", "12"],
-        ["Search", "Semantic search, Facets, Boost", "6"],
-        ["Loyalty", "Points, Referrals, Dashboard", "5"],
-        ["Checkout", "RazorPay, Auto-discount, Address", "5"],
-        ["Inventory", "MSSQL sync, Buffer, Routing", "5"],
-        ["Orders", "Tracking, WhatsApp, Shipping", "9"],
-        ["Catalog", "AI migration, CRUD, Review flow", "8"],
-        ["SEO & CMS", "Blog, Schema, Sitemaps, OG", "7"],
-        ["Jobs Portal", "Listings, Applications, Admin", "5"],
-        ["Admin", "Cross-module control panel", "4"]
-      ].map((row, i) => (
-        <div key={i} className="flex items-center p-3 border-b border-[#E5E7EB] last:border-0 hover:bg-[#F9FAFB] transition-colors rounded-lg">
-          <div className="w-1/3 font-bold text-[#1A1A1A] text-[13px] pl-2">{row[0]}</div>
-          <div className="w-1/2 text-[#6B7280] text-[12px]">{row[1]}</div>
-          <div className="w-1/6 text-center">
-            <span className="bg-[#F3F4F6] text-[#8B5CF6] font-bold text-[11px] px-2.5 py-1 rounded-full">{row[2]}</span>
-          </div>
-        </div>
-      ))}
-    </div>
-  </div>
-);
-
 export const Module5Right = () => (
-  <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] w-full max-w-2xl mx-auto overflow-hidden flex flex-col mt-4">
-    <div className="flex text-[11px] font-bold uppercase tracking-wider border-b border-[#E5E7EB]">
+  <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] w-full max-w-2xl mx-auto overflow-hidden flex flex-col mt-4 max-h-[80vh] lg:max-h-[600px]">
+    <div className="flex text-[11px] font-bold uppercase tracking-wider border-b border-[#E5E7EB] shrink-0">
       <div className="w-1/2 p-4 bg-[#1A1A1A] text-white">BEFORE (WooCommerce)</div>
       <div className="w-1/2 p-4 bg-[#22C55E] text-white">AFTER (New Platform)</div>
     </div>
-    <div className="flex-1">
+    <div className="flex-1 overflow-y-auto hide-scrollbar">
       {[
-        ["WordPress + WooCommerce plugins", "Purpose-built Next.js + Node.js"],
-        ["Manual product data entry", "AI-assisted catalog migration"],
-        ["Basic keyword search", "Semantic search with typo tolerance"],
-        ["No inventory sync — manual stock updates", "Live MSSQL bi-directional sync"],
-        ["No loyalty system", "Pillbox Points + Referral engine"],
-        ["Email-only notifications", "WhatsApp automation at every order milestone"],
-        ["Generic checkout", "Pharmacy-specific checkout with loyalty redemption"],
-        ["No SEO architecture", "Core Web Vitals + structured data from day one"],
-        ["Plugin-dependent, brittle", "Modular, independently deployable"],
-        ["Basic jobs portal", "Integrated careers & candidate management"]
+        ["WordPress + WooCommerce theme — generic, shared by thousands", "Purpose-built Next.js PWA — feels and performs like a native mobile app"],
+        ["Manual product entry — inconsistent descriptions, missing attributes, uneven images", "AI enrichment pipeline — rewritten descriptions, background-removed images, full tagging"],
+        ["Keyword-only search — 'medicin for skin' returns nothing", "Semantic search — intent-aware, typo-tolerant, results in under 300ms"],
+        ["Static filters, manually configured, same options regardless of context", "Dynamic filters — change based on what's currently on screen"],
+        ["Basic related products by category — largely noise", "Recommendations engine — Frequently Bought Together + Similar Products + cart-level impulse buys"],
+        ["No loyalty programme — every purchase is purely transactional", "Pillbox Points on every purchase + referral system with unique links and automatic rewards"],
+        ["Email/password and basic social logins, single address, basic order history", "Google, Facebook, Phone OTP, or Email login — multiple addresses, reorder, loyalty dashboard"],
+        ["Manual stock updates — perpetually out of sync with physical inventory", "Live MSSQL sync — actual warehouse stock at all times, overselling structurally impossible"],
+        ["No multi-warehouse routing — manual shipping management", "Auto-routing to nearest stocked warehouse, live shipping rates calculated at checkout"],
+        ["Plain WooCommerce order emails to an inbox customers ignore", "WhatsApp automation — confirmations, tracking, abandoned cart recovery, PDF invoices"],
+        ["Fragmented WooCommerce admin across disconnected menus and plugins", "Single Command & Control panel — products, promotions, loyalty, stock, content, hiring"],
+        ["Content and commerce tangled in WordPress — risky for non-technical staff", "Headless CMS fully decoupled — non-technical staff publish independently without risk"],
+        ["SEO as a plugin afterthought — poor Core Web Vitals, limited structured data", "SEO baked into architecture — Product Schema, Open Graph, AI descriptions, auto sitemaps"],
+        ["Basic jobs form — applications managed and tracked manually", "Full careers portal — CV uploads, automated responses, candidate dashboard, auto-expiry"],
+        ["Plugin-dependent security — WordPress is the most targeted CMS on the internet", "Architectural security — OWASP Top 10, encrypted at rest and in transit, PCI-DSS via RazorPay"],
+        ["Shared hosting, degrades under load, a plugin update can break the site", "Built for 10,000+ MAU, sub-3s on 4G mobile, 99.9% uptime, horizontally scalable"]
       ].map((row, i) => (
         <div key={i} className="flex border-b border-[#E5E7EB] last:border-0 text-[12px] leading-relaxed">
           <div className="w-1/2 p-4 bg-[#FFF7ED] text-[#92400E] border-r border-[#E5E7EB]">{row[0]}</div>
@@ -207,7 +347,9 @@ export const Module6Right = () => (
         ].map((p, i) => (
           <div key={i} className="bg-white rounded-xl p-3 border border-[#E5E7EB] relative flex flex-col">
             <div className={`absolute top-2 left-2 ${p.badgeColor} text-[9px] font-bold px-2 py-0.5 rounded-full z-10`}>{p.badge}</div>
-            <div className="h-24 bg-[#F3F4F6] rounded-lg mb-3 mt-4"></div>
+            <div className="h-[100px] rounded-lg mb-3 mt-4 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F3F4F6, #E5E7EB)' }}>
+              <span className="text-[20px] text-[#9CA3AF]">📷</span>
+            </div>
             <div className="text-[9px] font-bold text-[#22C55E] mb-1 uppercase tracking-wider">{p.brand}</div>
             <div className="text-[11px] font-semibold text-[#1A1A1A] leading-tight mb-2 flex-1">{p.name}</div>
             <div className="flex items-center justify-between mt-auto">
@@ -246,18 +388,12 @@ export const Module7Right = () => (
         </div>
       </div>
       
-      <div className="mt-44 flex items-center justify-between">
-        <div className="flex space-x-2">
-          <span className="bg-white border border-[#E5E7EB] text-[#1A1A1A] text-[11px] font-semibold px-2.5 py-1 rounded-md flex items-center shadow-sm">Skincare <span className="ml-1.5 text-[#6B7280]">✕</span></span>
-          <span className="bg-white border border-[#E5E7EB] text-[#1A1A1A] text-[11px] font-semibold px-2.5 py-1 rounded-md flex items-center shadow-sm">Under ₹500 <span className="ml-1.5 text-[#6B7280]">✕</span></span>
-          <span className="text-[11px] text-[#8B5CF6] font-medium cursor-pointer ml-1 self-center">clear all</span>
-        </div>
-      </div>
+      <div className="mt-44"></div>
     </div>
     <div className="p-5 bg-white">
       <div className="flex justify-between items-center mb-4">
-        <div className="text-[12px] text-[#6B7280] font-medium">Showing 24 results</div>
-        <div className="text-[11px] font-bold text-[#1A1A1A] flex items-center border border-[#E5E7EB] px-2 py-1 rounded-md">Best Match <span className="ml-1 text-[8px]">▼</span></div>
+        <div className="text-[13px] text-[#6B7280] font-medium">Showing 24 results for &apos;vitamin c&apos;</div>
+        <div className="text-[11px] font-bold text-[#1A1A1A] flex items-center border border-[#E5E7EB] px-2 py-1 rounded-md">Best Match <span className="ml-1 text-[8px]">▾</span></div>
       </div>
       <div className="space-y-3">
         {[
@@ -265,7 +401,9 @@ export const Module7Right = () => (
           { name: "Plum 15% Vitamin C Face Serum", brand: "Plum", price: "₹450", score: "95% Match" }
         ].map((p, i) => (
           <div key={i} className="flex items-center p-3 border border-[#E5E7EB] rounded-xl">
-            <div className="w-14 h-14 bg-[#F3F4F6] rounded-lg mr-4 shrink-0"></div>
+            <div className="w-[80px] h-[80px] rounded-lg mr-4 shrink-0 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F3F4F6, #E5E7EB)' }}>
+              <span className="text-[20px] text-[#9CA3AF]">📷</span>
+            </div>
             <div className="flex-1">
               <div className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider mb-0.5">{p.brand}</div>
               <div className="text-[13px] font-semibold text-[#1A1A1A] mb-1">{p.name}</div>
@@ -687,13 +825,13 @@ export const Module18Right = () => (
       
       <div className="w-16 h-px bg-[#2D2B4E] mb-8"></div>
       
-      <div className="flex flex-row gap-8 mb-1 text-[15px] text-[#D1D5DB] font-medium">
+      <div className="flex flex-col md:flex-row md:gap-8 mb-1 text-[15px] text-[#D1D5DB] font-medium">
         <div>📧 ravsysinfotech@gmail.com</div>
-        <div>📞 +91 8921 386061</div>
+        <div className='mb-2 md:mb-0'>📞 +91 8921 386061</div>
       </div>
       
       <div className="text-[11px] text-[#6B7280] font-medium tracking-wider uppercase">
-        RAVSYS Infotech LLP • Pillbox Pharmacy E-Commerce Proposal • 2026
+        RAVSYS INFOTECH LLP • Pillbox Pharmacy E-Commerce Proposal • 2026
       </div>
     </div>
   </div>
@@ -707,11 +845,11 @@ export const Module17Right = () => (
     <div className="p-6 overflow-y-auto flex-1 hide-scrollbar">
       <div className="space-y-5 relative before:absolute before:inset-0 before:ml-2.5 before:-translate-x-px before:h-full before:w-0.5 before:bg-gradient-to-b before:from-[#E5E7EB] before:to-transparent">
         {[
-          { m: "Month 1", title: "FOUNDATION & CORE SETUP", desc: "Architecture, UX design, MSSQL connector, environment setup" },
+          { m: "Month 1", title: "FOUNDATION & CORE SETUP", desc: "Architecture, UX design, environment setup" },
           { m: "Month 2", title: "COMMERCE CORE & CHECKOUT", desc: "Storefront, PDP, Cart, Checkout, RazorPay, Auth" },
           { m: "Month 3", title: "SEARCH, FILTERS & AI CATALOG", desc: "Typesense integration, facets, AI migration pipeline, admin review" },
-          { m: "Month 4", title: "OPERATIONS, INVENTORY, JOBS", desc: "MSSQL sync, WhatsApp automation, order management, jobs portal" },
-          { m: "Month 5", title: "DISCOVERY, SEO & CONTENT", desc: "Loyalty, referrals, Payload CMS, SEO hardening, sitemaps" },
+          { m: "Month 4", title: "OPERATIONS, INVENTORY & AUTOMATION", desc: "MSSQL bi-directional sync, WhatsApp automation, order management" },
+          { m: "Month 5", title: "DISCOVERY, SEO & CONTENT", desc: "Loyalty, referrals, Payload CMS, SEO hardening, sitemaps, Jobs Portal & Candidate Dashboard" },
           { m: "Month 6", title: "SECURITY, TESTING & LAUNCH", desc: "Security audit, UAT, performance tuning, production deployment" }
         ].map((item, i) => (
           <div key={i} className="relative flex items-start">
@@ -741,7 +879,8 @@ export const Module17Right = () => (
           </tbody>
         </table>
       </div>
-      
+      <p className="text-[11px] text-[#9CA3AF] italic mt-3">* All third-party services, platforms, and technology stack choices are indicative. Final selections will be made collaboratively during the project's architecture and planning phase.</p>
+
       <div className="mt-5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 text-center">
         <div className="text-[10px] font-bold text-[#1A1A1A] uppercase tracking-wider mb-2">Infrastructure Cost Estimate</div>
         <div className="text-[11px] text-[#6B7280] font-medium flex justify-center space-x-4">
