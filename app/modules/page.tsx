@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { Check, ChevronLeft, ChevronRight, Zap, Menu, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
@@ -10,7 +10,7 @@ import {
   Module5Right, Module6Right, Module7Right, Module8Right, Module9Right,
   Module10Right, Module11Right, Module12Right, Module13Right, Module14Right,
   Module15Right, Module16Right,
-} from '../modules';
+} from '@/app/modules';
 
 const MODULES = [
   {
@@ -163,6 +163,7 @@ export default function ProposalApp() {
   const router = useRouter();
   const [activeModuleIndex, setActiveModuleIndex] = useState(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const moduleButtonRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
   const activeModule = MODULES[activeModuleIndex];
   const isLastModule = activeModuleIndex === MODULES.length - 1;
@@ -192,6 +193,13 @@ export default function ProposalApp() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleNext, handlePrev]);
 
+  useEffect(() => {
+    moduleButtonRefs.current[activeModuleIndex]?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    });
+  }, [activeModuleIndex]);
+
   const progressPercentage = ((activeModuleIndex + 1) / MODULES.length) * 100;
 
   return (
@@ -213,6 +221,9 @@ export default function ProposalApp() {
           {MODULES.map((mod, idx) => (
             <button
               key={mod.id}
+              ref={(element) => {
+                moduleButtonRefs.current[idx] = element;
+              }}
               onClick={() => { setActiveModuleIndex(idx); setIsSidebarOpen(false); }}
               className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-medium transition-all ${
                 idx === activeModuleIndex
