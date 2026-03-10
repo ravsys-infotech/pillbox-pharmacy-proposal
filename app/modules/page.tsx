@@ -225,6 +225,7 @@ export default function ProposalApp() {
                 moduleButtonRefs.current[idx] = element;
               }}
               onClick={() => { setActiveModuleIndex(idx); setIsSidebarOpen(false); }}
+              style={{ scrollMarginBlock: '16px' }}
               className={`w-full text-left px-4 py-3 rounded-xl text-[13px] font-medium transition-all ${
                 idx === activeModuleIndex
                   ? 'bg-[#1E1B3A] text-white shadow-inner border border-white/5'
