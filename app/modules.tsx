@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useCallback } from 'react';
-import { Check, Search, ShoppingBag, Database, Zap, Copy, CheckCircle2, Clock, Star, Edit2, FileText, ArrowRight, Upload, Shield, Server, Lock, Globe, X } from 'lucide-react';
+import { Check, Search, ShoppingBag, Database, Zap, Copy, CheckCircle2, Clock, Star, Edit2, FileText, ArrowRight, Upload, Shield, Server, Lock, Globe, X, ImageIcon } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -248,7 +248,7 @@ export const Module3Right = () => {
           <div
             key={i}
             onClick={() => handleTileClick(i)}
-            className="border border-[#2D2B4E] rounded-[10px] px-[10px] py-[12px] flex flex-col items-center justify-center text-center min-h-[80px] transition-all duration-200 hover:border-[#7C3AED] hover:shadow-[0_0_0_2px_rgba(124,58,237,0.3)] cursor-pointer"
+            className="border border-[#2D2B4E] rounded-[10px] px-[10px] py-[12px] flex flex-col items-center justify-center text-center min-h-[80px] transition-all duration-200 hover:border-[#7C3AED] hover:shadow-[0_0_0_2px_rgba(124,58,237,0.3)] hover:scale-[1.03] cursor-pointer"
             style={{ backgroundColor: flashedTile === i ? '#2D1B69' : '#1E1B3A', transition: 'background-color 100ms ease' }}
           >
             <div className="text-[11px] font-bold text-white tracking-[0.05em]">{m.name}</div>
@@ -295,7 +295,7 @@ export const Module5Right = () => (
 );
 
 export const Module6Right = () => (
-  <div className="w-[320px] mx-auto bg-white rounded-[32px] shadow-xl border-8 border-[#1A1A1A] overflow-hidden h-[580px] flex flex-col relative">
+  <div className="w-full max-w-[320px] mx-auto bg-white rounded-[32px] shadow-xl border-8 border-[#1A1A1A] overflow-hidden h-[580px] flex flex-col relative">
     <div className="bg-white pt-6 pb-3 px-4 border-b border-[#E5E7EB] sticky top-0 z-10">
       <div className="flex justify-between items-center mb-4">
         <div className="font-bold text-lg text-[#1A1A1A]">
@@ -348,7 +348,7 @@ export const Module6Right = () => (
           <div key={i} className="bg-white rounded-xl p-3 border border-[#E5E7EB] relative flex flex-col">
             <div className={`absolute top-2 left-2 ${p.badgeColor} text-[9px] font-bold px-2 py-0.5 rounded-full z-10`}>{p.badge}</div>
             <div className="h-[100px] rounded-lg mb-3 mt-4 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F3F4F6, #E5E7EB)' }}>
-              <span className="text-[20px] text-[#9CA3AF]">📷</span>
+              <ImageIcon className="w-8 h-8 text-[#D1D5DB]" strokeWidth={1.5} />
             </div>
             <div className="text-[9px] font-bold text-[#22C55E] mb-1 uppercase tracking-wider">{p.brand}</div>
             <div className="text-[11px] font-semibold text-[#1A1A1A] leading-tight mb-2 flex-1">{p.name}</div>
@@ -368,7 +368,7 @@ export const Module6Right = () => (
 
 export const Module7Right = () => (
   <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] w-full max-w-md mx-auto overflow-hidden">
-    <div className="p-5 border-b border-[#E5E7EB] bg-[#F9FAFB]">
+    <div className="p-5 border-b border-[#E5E7EB] bg-[#F9FAFB] min-h-[260px]">
       <div className="relative">
         <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#6B7280]" />
         <input type="text" value="vitamin c for..." readOnly className="w-full pl-9 pr-4 py-3 rounded-xl border border-[#E5E7EB] text-[14px] font-medium text-[#1A1A1A] bg-white focus:outline-none shadow-sm" />
@@ -388,7 +388,6 @@ export const Module7Right = () => (
         </div>
       </div>
       
-      <div className="mt-44"></div>
     </div>
     <div className="p-5 bg-white">
       <div className="flex justify-between items-center mb-4">
@@ -402,7 +401,7 @@ export const Module7Right = () => (
         ].map((p, i) => (
           <div key={i} className="flex items-center p-3 border border-[#E5E7EB] rounded-xl">
             <div className="w-[80px] h-[80px] rounded-lg mr-4 shrink-0 flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #F3F4F6, #E5E7EB)' }}>
-              <span className="text-[20px] text-[#9CA3AF]">📷</span>
+              <ImageIcon className="w-8 h-8 text-[#D1D5DB]" strokeWidth={1.5} />
             </div>
             <div className="flex-1">
               <div className="text-[10px] font-bold text-[#22C55E] uppercase tracking-wider mb-0.5">{p.brand}</div>

@@ -140,7 +140,7 @@ export default function LandingPage() {
           transition={{ duration: 0.6, delay: 0.35, ease: 'easeOut' }}
           className="text-[14px] sm:text-[17px] text-[#9CA3AF] leading-[1.7] max-w-xl sm:mb-12 font-medium"
         >
-          A complete vision for Pillbox's digital commerce platform — 17 slides covering architecture, modules, timeline, and investment.
+          A complete vision for Pillbox's digital commerce platform — 16 modules covering architecture, storefront, timeline, and investment.
         </motion.p>
 
         {/* CTA */}
@@ -168,7 +168,7 @@ export default function LandingPage() {
           className="sm:mt-20 flex items-center gap-10 sm:gap-16"
         >
           {[
-            { value: '17', label: 'Slides' },
+            { value: '16', label: 'Slides' },
             { value: '16', label: 'Modules' },
             { value: '6mo', label: 'Delivery' },
           ].map(({ value, label }) => (
