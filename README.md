@@ -1,20 +1,47 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Pillbox Pharmacy Proposal
 
-# Run and deploy your AI Studio app
+Interactive proposal presentation app for Pillbox Pharmacy's e-commerce platform. The app is built with Next.js App Router and presents a multi-page proposal flow with a landing page, slide-based presentation experience, and thank-you screen.
 
-This contains everything you need to run your app locally.
+## Tech Stack
 
-View your app in AI Studio: https://ai.studio/apps/da123705-f99e-419d-95b3-982d828aa5d3
+- Next.js 16
+- React 19
+- TypeScript
+- Tailwind CSS v4
+- Motion (`motion/react`)
+- Lucide React
 
-## Run Locally
+## Project Structure
 
-**Prerequisites:**  Node.js
+- `app/page.tsx` - landing page
+- `app/proposal/page.tsx` - main proposal experience with slide navigation
+- `app/modules.tsx` - right-panel content for each proposal module
+- `app/thank-you/page.tsx` - closing page
+- `components/` - shared visual components
+- `hooks/` - presentation-specific hooks
+- `lib/utils.ts` - shared utility helpers
 
+## Local Development
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Prerequisite: Node.js 20+ recommended.
+
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
+## Available Scripts
+
+- `npm run dev` - start the development server
+- `npm run build` - create a production build
+- `npm run start` - run the production server
+- `npm run lint` - run ESLint
+- `npm run clean` - remove the Next.js build cache
+
+## Notes
+
+- No environment variables are currently required.
+- The app is configured with `output: 'standalone'`.
+- There is no test framework configured in this repository yet.

@@ -15,7 +15,7 @@ Interactive proposal presentation app for Pillbox Pharmacy's e-commerce platform
 
 ## Environment
 
-Requires `GEMINI_API_KEY` in `.env.local` (see `.env.example`). The app is configured for standalone output (Firebase/Cloud Run deployment).
+No environment variables are currently required. The app is configured for standalone output.
 
 ## Architecture
 
