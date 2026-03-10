@@ -74,7 +74,7 @@ export default function LandingPage() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.45, ease: 'easeOut' }}
         >
-          <Link href="/proposal">
+          <Link href="/modules">
             <button
               className="group relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-[15px] font-bold text-white shadow-2xl overflow-hidden transition-all duration-300 hover:scale-[1.03] active:scale-[0.98]"
               style={{ background: 'linear-gradient(135deg, #3B82F6, #8B5CF6, #EC4899)' }}

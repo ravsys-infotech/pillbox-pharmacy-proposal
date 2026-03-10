@@ -106,7 +106,7 @@ export default function ThankYouPage() {
           transition={{ duration: 0.6, delay: 0.5 }}
         >
           <button
-            onClick={() => router.push('/proposal')}
+            onClick={() => router.push('/modules')}
             className="group relative inline-flex items-center gap-2.5 px-7 py-3.5 rounded-xl text-[13px] font-bold text-white shadow-md hover:opacity-90 transition-all duration-200 overflow-hidden"
             style={{ background: 'linear-gradient(135deg, #3B82F6, #8B5CF6, #EC4899)' }}
           >
