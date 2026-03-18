@@ -11,6 +11,7 @@ import {
   Module10Right, Module11Right, Module12Right, Module13Right, Module14Right,
   Module15Right, Module16Right,
 } from '@/app/modules';
+import { EngineeringEffortPanel } from '@/components/engineering-effort-panel';
 
 const MODULES = [
   {
@@ -51,6 +52,15 @@ const MODULES = [
   },
   {
     id: 5,
+    navLabel: "Engineering Effort",
+    title: "Engineering Effort",
+    subtitle: "Why building a custom platform is a fundamentally different category of work from installing WooCommerce.",
+    features: ["Install & Configure → Hours", "Write Code → Days", "Engineer from Scratch → Weeks", "16 Engines, Built End-to-End"],
+    insight: "WooCommerce is assembled from plugins. The Pillbox platform is engineered from scratch — every capability designed, built, and tested as original code.",
+    panel: EngineeringEffortPanel,
+  },
+  {
+    id: 6,
     navLabel: "Storefront & Catalog",
     title: "Storefront & Catalog",
     subtitle: "A high-conversion, mobile-first commerce experience — built for pharmacy browsing behavior.",
@@ -59,7 +69,7 @@ const MODULES = [
     panel: Module5Right,
   },
   {
-    id: 6,
+    id: 7,
     navLabel: "Search & Discovery",
     title: "Search & Discovery",
     subtitle: "Intelligent semantic search — understands intent, tolerates typos, surfaces the right product every time.",
@@ -68,7 +78,7 @@ const MODULES = [
     panel: Module6Right,
   },
   {
-    id: 7,
+    id: 8,
     navLabel: "Loyalty & Accounts",
     title: "Loyalty & Accounts",
     subtitle: "A retention-driving loyalty ecosystem — earning, redeeming, and referring, all in one dashboard.",
@@ -77,7 +87,7 @@ const MODULES = [
     panel: Module7Right,
   },
   {
-    id: 8,
+    id: 9,
     navLabel: "Checkout & Payments",
     title: "Checkout & Payments",
     subtitle: "A secure, frictionless checkout — RazorPay-powered, loyalty-integrated, with auto-applied best discount.",
@@ -86,7 +96,7 @@ const MODULES = [
     panel: Module8Right,
   },
   {
-    id: 9,
+    id: 10,
     navLabel: "Inventory Sync",
     title: "Inventory Sync",
     subtitle: "Real-time bi-directional synchronization — your MSSQL warehouse data, live on the website at all times.",
@@ -95,7 +105,7 @@ const MODULES = [
     panel: Module9Right,
   },
   {
-    id: 10,
+    id: 11,
     navLabel: "Orders & Automation",
     title: "Orders & Automation",
     subtitle: "End-to-end order lifecycle automation — from placement to delivery, with WhatsApp at every step.",
@@ -104,7 +114,7 @@ const MODULES = [
     panel: Module10Right,
   },
   {
-    id: 11,
+    id: 12,
     navLabel: "AI Catalog Engine",
     title: "AI Catalog Engine",
     subtitle: "AI-accelerated migration of 2,000+ products — enriched, tagged, described, and SEO-optimized automatically.",
@@ -113,7 +123,7 @@ const MODULES = [
     panel: Module11Right,
   },
   {
-    id: 12,
+    id: 13,
     navLabel: "Admin Ecosystem",
     title: "Admin Ecosystem",
     subtitle: "A centralized command center — manage every aspect of the platform without touching code.",
@@ -122,7 +132,7 @@ const MODULES = [
     panel: Module12Right,
   },
   {
-    id: 13,
+    id: 14,
     navLabel: "SEO & Content",
     title: "SEO & Content",
     subtitle: "Best-in-class technical SEO baked into the architecture — not bolted on as an afterthought.",
@@ -131,7 +141,7 @@ const MODULES = [
     panel: Module13Right,
   },
   {
-    id: 14,
+    id: 15,
     navLabel: "Jobs Portal",
     title: "Jobs Portal",
     subtitle: "An integrated careers platform — from job listing to candidate management, fully within the Pillbox ecosystem.",
@@ -140,7 +150,7 @@ const MODULES = [
     panel: Module14Right,
   },
   {
-    id: 15,
+    id: 16,
     navLabel: "Security & Infra",
     title: "Security & Infra",
     subtitle: "Production-grade infrastructure with zero-trust security, PCI compliance, and 99.9% uptime architecture.",
@@ -149,7 +159,7 @@ const MODULES = [
     panel: Module15Right,
   },
   {
-    id: 16,
+    id: 17,
     navLabel: "Roadmap & Costs",
     title: "Roadmap & Costs",
     subtitle: "A transparent 6-month delivery roadmap with milestone-locked payments — you pay for working software, not promises.",
