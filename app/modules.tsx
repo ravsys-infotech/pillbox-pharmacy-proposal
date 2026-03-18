@@ -147,7 +147,7 @@ const TILE_MODULES = [
   { name: "STOREFRONT", sub: "Mobile-First PWA" }, { name: "CATALOG", sub: "AI Enrichment Engine" }, { name: "DISCOVERY", sub: "Semantic Search Engine" }, { name: "RECOMMENDATIONS", sub: "Conversion Engine" },
   { name: "RETENTION", sub: "Loyalty & Referral Engine" }, { name: "ACCOUNTS", sub: "Profiles & Authentication" }, { name: "INVENTORY", sub: "MSSQL Sync Engine" }, { name: "ORDERS", sub: "Checkout & Fulfillment Engine" },
   { name: "NOTIFICATIONS", sub: "WhatsApp Automation Engine" }, { name: "ADMIN", sub: "Command & Control" }, { name: "CMS", sub: "Headless Content Engine" }, { name: "TALENT", sub: "Careers Portal" },
-  { name: "SEO", sub: "Visibility Engine" }, { name: "ANALYTICS", sub: "GA4, Tag Manager & PostHog" }, { name: "SECURITY", sub: "PCI Hardening Layer" }, { name: "INFRASTRUCTURE", sub: "Performance & Reliability Layer" },
+  { name: "SEO", sub: "Visibility Engine" }, { name: "ANALYTICS", sub: "GA4, Tag Manager & PostHog" }, { name: "SECURITY", sub: "Hardening Layer" }, { name: "INFRASTRUCTURE", sub: "Performance & Reliability Layer" },
 ];
 
 export const Module3Right = () => {
@@ -278,6 +278,8 @@ export const Module4Right = () => (
         ["Email/password and basic social logins, single address, basic order history", "Google, Facebook, Phone OTP, or Email login — multiple addresses, reorder, loyalty dashboard"],
         ["Manual stock updates — perpetually out of sync with physical inventory", "Live MSSQL sync — actual warehouse stock at all times, overselling structurally impossible"],
         ["No multi-warehouse routing — manual shipping management", "Auto-routing to nearest stocked warehouse, live shipping rates calculated at checkout"],
+        ["Manual shipment order — customer receives a tracking ID via SMS/WhatsApp and must visit the shipping partner's portal themselves to check status", "Live order tracking built-in — real-time status updates directly on the website, no external links, no manual lookup"],
+        ["Shipping partner management handled entirely in the carrier's own portal — admins context-switch constantly", "Shipping partner integration in the Command & Control panel — manage carriers, view shipments, and act on exceptions without leaving the admin"],
         ["Plain WooCommerce order emails to an inbox customers ignore", "WhatsApp automation — confirmations, tracking, abandoned cart recovery, PDF invoices"],
         ["Fragmented WooCommerce admin across disconnected menus and plugins", "Single Command & Control panel — products, promotions, loyalty, stock, content, hiring"],
         ["Content and commerce tangled in WordPress — risky for non-technical staff", "Headless CMS fully decoupled — non-technical staff publish independently without risk"],
