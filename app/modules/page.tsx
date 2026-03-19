@@ -313,17 +313,17 @@ export default function ProposalApp() {
               className="flex flex-col lg:flex-row w-full h-full overflow-y-auto lg:overflow-hidden"
             >
               {/* Left Column */}
-              <div className="w-full lg:w-[45%] bg-white p-8 lg:p-16 flex flex-col lg:h-full overflow-y-visible lg:overflow-y-auto border-b lg:border-b-0 lg:border-r border-[#E5E7EB] hide-scrollbar shrink-0">
+              <div className="w-full lg:w-[45%] bg-white p-6 sm:p-8 lg:px-16 lg:py-8 flex flex-col lg:h-full overflow-y-visible lg:overflow-y-auto border-b lg:border-b-0 lg:border-r border-[#E5E7EB] hide-scrollbar shrink-0">
                 <div className="flex-1">
                   <div className="text-[11px] uppercase tracking-[0.12em] text-[#22C55E] font-bold mb-5">Project Highlight</div>
-                  <h1 className="text-[38px] font-extrabold text-[#1A1A1A] leading-[1.15] mb-6 tracking-tight">
+                  <h1 className="text-[26px] sm:text-[34px] lg:text-[38px] font-extrabold text-[#1A1A1A] leading-[1.15] mb-4 sm:mb-6 tracking-tight">
                     {activeModule.title}
                   </h1>
-                  <p className="text-[15px] text-[#6B7280] leading-[1.6] mb-10 max-w-md font-medium">
+                  <p className="text-[14px] sm:text-[15px] text-[#6B7280] leading-[1.6] mb-6 sm:mb-10 max-w-md font-medium">
                     {activeModule.subtitle}
                   </p>
 
-                  <div className="space-y-4 mb-12">
+                  <div className="space-y-3 sm:space-y-4 mb-8 sm:mb-12">
                     {activeModule.features.map((feature, idx) => (
                       <div key={idx} className="bg-white border border-[#E5E7EB] rounded-xl p-4 flex items-center hover:border-[#C4B5FD] hover:shadow-[0_8px_16px_rgba(139,92,246,0.15)] transition-all group cursor-default">
                         <div className="w-[24px] h-[24px] rounded-full bg-[#22C55E] flex items-center justify-center shrink-0 mr-4 group-hover:scale-110 transition-transform shadow-sm">
@@ -335,7 +335,7 @@ export default function ProposalApp() {
                   </div>
                 </div>
 
-                <div className="bg-[#1E1B3A] rounded-2xl p-8 mt-auto shrink-0 relative overflow-hidden shadow-xl border border-white/5">
+                <div className="bg-[#1E1B3A] rounded-2xl p-5 sm:p-8 mt-auto shrink-0 relative overflow-hidden shadow-xl border border-white/5">
                   <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-[#8B5CF6] to-[#EC4899] opacity-20 blur-3xl rounded-full translate-x-10 -translate-y-10" />
                   <h4 className="text-[12px] uppercase tracking-[0.1em] font-bold text-white mb-4 flex items-center">
                     <Zap className="w-4 h-4 mr-2.5 text-[#FBBF24]" /> Strategic Insight
@@ -347,10 +347,12 @@ export default function ProposalApp() {
               </div>
 
               {/* Right Column */}
-              <div className="w-full lg:w-[55%] bg-[#F7F8FA] p-8 lg:p-16 flex items-center justify-center lg:h-full overflow-y-visible lg:overflow-y-auto hide-scrollbar relative shrink-0">
+              <div className="w-full lg:w-[55%] bg-[#F7F8FA] lg:h-full overflow-y-visible lg:overflow-y-auto hide-scrollbar relative shrink-0">
                 <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#1A1A1A 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-                <div className="relative z-10 w-full">
-                  <activeModule.panel />
+                <div className="relative z-10 w-full min-h-full flex items-center justify-center p-4 sm:p-8 lg:px-16 lg:py-2">
+                  <div className="w-full">
+                    <activeModule.panel />
+                  </div>
                 </div>
               </div>
             </motion.div>
