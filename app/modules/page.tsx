@@ -9,7 +9,7 @@ import {
   Module1Right, Module2Right, Module3Right, Module4Right,
   Module5Right, Module6Right, Module7Right, Module8Right, Module9Right,
   Module10Right, Module11Right, Module12Right, Module13Right, Module14Right,
-  Module15Right, Module16Right,
+  Module15Right, Module16Right, Module17Right,
 } from '@/app/modules';
 import { EngineeringEffortPanel } from '@/components/engineering-effort-panel';
 
@@ -34,8 +34,8 @@ const MODULES = [
   },
   {
     id: 3,
-    navLabel: "Project Modules & Features",
-    title: "Project Modules & Features",
+    navLabel: "Modules & Features",
+    title: "Modules & Features",
     subtitle: "A modular commerce architecture — 16 independently deployable micro-modules for maximum resilience.",
     features: ["16 Core Modules", "API-First Architecture", "Bi-directional Sync", "Zero-Trust Security"],
     insight: "Each module is independently deployable — a failure in notifications never touches checkout.",
@@ -160,6 +160,15 @@ const MODULES = [
   },
   {
     id: 17,
+    navLabel: "Analytics",
+    title: "Analytics",
+    subtitle: "Two complementary analytics layers — GA4 + GTM for marketing intelligence, PostHog for product experience.",
+    features: ["Google Analytics 4 + Tag Manager", "PostHog Product Analytics", "Session Recordings & Funnels", "Retention Cohort Analysis"],
+    insight: "Marketing data tells you where customers came from. Product data tells you why they stayed — or left. You need both to act.",
+    panel: Module17Right,
+  },
+  {
+    id: 18,
     navLabel: "Roadmap & Costs",
     title: "Roadmap & Costs",
     subtitle: "A transparent 6-month delivery roadmap with milestone-locked payments — you pay for working software, not promises.",

@@ -9,8 +9,8 @@ import { DarkPageBackground } from '@/components/dark-page-background';
 import { useParticleCanvas } from '@/hooks/use-particle-canvas';
 
 const STATS = [
-  { value: '17', label: 'Slides' },
-  { value: '17', label: 'Modules' },
+  { value: '18', label: 'Slides' },
+  { value: '18', label: 'Modules' },
   { value: '6mo', label: 'Delivery' },
 ];
 
@@ -66,7 +66,7 @@ export default function LandingPage() {
           transition={{ duration: 0.6, delay: 0.35, ease: 'easeOut' }}
           className="text-[14px] sm:text-[17px] text-[#9CA3AF] leading-[1.7] max-w-xl sm:mb-12 font-medium"
         >
-          A complete vision for Pillbox&apos;s digital commerce platform — 17 modules covering architecture, storefront, timeline, and investment.
+          A complete vision for Pillbox&apos;s digital commerce platform — 18 modules covering architecture, storefront, analytics, timeline, and investment.
         </motion.p>
 
         <motion.div

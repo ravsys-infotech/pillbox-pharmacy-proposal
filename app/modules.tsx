@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useCallback } from 'react';
-import { Check, Search, ShoppingBag, Database, Zap, CheckCircle2, Clock, Star, Edit2, FileText, Upload, Shield, Server, Lock, Globe, X, ImageIcon } from 'lucide-react';
+import { Check, Search, ShoppingBag, Database, Zap, CheckCircle2, Clock, Star, Edit2, FileText, Upload, Shield, Server, Lock, Globe, X, ImageIcon, TrendingUp, Users, BarChart2, MousePointerClick } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { PillboxLogo } from '@/components/pillbox-logo';
@@ -822,3 +822,92 @@ export const Module16Right = () => (
     </div>
   </div>
 );
+
+export const Module17Right = () => {
+  const ga4Capabilities = [
+    "Marketing attribution & campaign tracking",
+    "Conversion funnels & goal completions",
+    "Audience demographics & acquisition source",
+    "Google Ads & Search Console integration",
+  ];
+
+  const posthogCapabilities = [
+    "Session recordings & user behaviour flows",
+    "Feature usage tracking & adoption metrics",
+    "Retention cohort analysis",
+    "Product funnel drop-off identification",
+  ];
+
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] w-full max-w-xl mx-auto overflow-hidden">
+      <div className="p-5 border-b border-[#E5E7EB] bg-[#F9FAFB]">
+        <h3 className="text-[11px] uppercase tracking-[0.12em] text-[#22C55E] font-semibold">Two Complementary Analytics Layers</h3>
+      </div>
+
+      {/* Two-layer split */}
+      <div className="grid grid-cols-2 divide-x divide-[#E5E7EB]">
+        {/* GA4 + GTM */}
+        <div className="p-5">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-7 h-7 rounded-lg bg-[#FEF3C7] flex items-center justify-center shrink-0">
+              <BarChart2 className="w-4 h-4 text-[#F59E0B]" />
+            </div>
+            <div>
+              <div className="text-[12px] font-extrabold text-[#1A1A1A] leading-none">GA4 + GTM</div>
+            </div>
+          </div>
+          <div className="text-[10px] font-semibold text-[#F59E0B] uppercase tracking-wider mb-3">Marketing Layer</div>
+          <ul className="space-y-2">
+            {ga4Capabilities.map((cap, i) => (
+              <li key={i} className="flex items-start gap-2 text-[11px] text-[#6B7280] leading-relaxed">
+                <span className="text-[#F59E0B] mt-0.5 shrink-0">•</span> {cap}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* PostHog */}
+        <div className="p-5">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-7 h-7 rounded-lg bg-[#F3E8FF] flex items-center justify-center shrink-0">
+              <MousePointerClick className="w-4 h-4 text-[#8B5CF6]" />
+            </div>
+            <div>
+              <div className="text-[12px] font-extrabold text-[#1A1A1A] leading-none">PostHog</div>
+            </div>
+          </div>
+          <div className="text-[10px] font-semibold text-[#8B5CF6] uppercase tracking-wider mb-3">Product Layer</div>
+          <ul className="space-y-2">
+            {posthogCapabilities.map((cap, i) => (
+              <li key={i} className="flex items-start gap-2 text-[11px] text-[#6B7280] leading-relaxed">
+                <span className="text-[#8B5CF6] mt-0.5 shrink-0">•</span> {cap}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Combined view */}
+      <div className="border-t border-[#E5E7EB] px-5 py-4 bg-[#F9FAFB]">
+        <div className="text-[10px] uppercase tracking-wider text-[#6B7280] font-bold mb-3">Together They Answer</div>
+        <div className="grid grid-cols-1 gap-2">
+          {[
+            { q: "Where are customers coming from?", tag: "GA4", color: "#F59E0B", bg: "#FEF3C7" },
+            { q: "Where in the funnel are they dropping off?", tag: "Both", color: "#3B82F6", bg: "#EFF6FF" },
+            { q: "Which features do they actually use?", tag: "PostHog", color: "#8B5CF6", bg: "#F3E8FF" },
+            { q: "Are returning users engaging with loyalty?", tag: "PostHog", color: "#8B5CF6", bg: "#F3E8FF" },
+          ].map((item, i) => (
+            <div key={i} className="flex items-center justify-between bg-white border border-[#E5E7EB] rounded-lg px-3 py-2.5 shadow-sm">
+              <span className="text-[11px] text-[#1A1A1A] font-medium">{item.q}</span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ml-3" style={{ color: item.color, background: item.bg }}>{item.tag}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-[#1E1B3A] px-5 py-3 text-center">
+        <div className="text-[11px] text-[#A78BFA] font-medium">Complete picture of both marketing performance and product experience — from first click to repeat purchase.</div>
+      </div>
+    </div>
+  );
+};
