@@ -1,7 +1,8 @@
 'use client';
 
-import React from 'react';
-import { useIsMobile } from '@/hooks/use-mobile';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 type TagType = 'install' | 'code' | 'engineer';
 
@@ -136,11 +137,6 @@ const SECTIONS: Section[] = [
   },
 ];
 
-const SUMMARY = {
-  woo: 'Meaningful development effort — branded theme customization, custom search and filter logic, Google & Facebook OAuth, RazorPay live authorization, and a shipment sync integration.',
-  custom: 'Every capability engineered from scratch — no plugins, no shortcuts, no ceiling. Each of the 16 engines is designed, built, integrated, and tested as original code. The WooCommerce site took real effort. This is a different category of work entirely.',
-};
-
 function Tag({ type }: { type: TagType }) {
   const { label, bg, color } = TAG_CONFIG[type];
   return (
@@ -149,13 +145,13 @@ function Tag({ type }: { type: TagType }) {
         display: 'inline-block',
         backgroundColor: bg,
         color,
-        fontSize: 11,
+        fontSize: 10,
         fontWeight: 600,
         letterSpacing: '0.05em',
         textTransform: 'uppercase',
-        padding: '2px 9px',
+        padding: '2px 8px',
         borderRadius: 10,
-        marginBottom: 8,
+        marginBottom: 6,
         whiteSpace: 'nowrap',
       }}
     >
@@ -172,12 +168,11 @@ function WooCell({ data }: { data: CellData }) {
         border: '0.5px solid rgba(255,255,255,0.1)',
         borderRadius: 10,
         padding: '12px 14px',
-        height: '100%',
-        boxSizing: 'border-box',
+        flex: 1,
       }}
     >
       <Tag type={data.tag} />
-      <div style={{ fontSize: 14, fontWeight: 600, color: '#E5E7EB', marginBottom: 5, lineHeight: 1.3 }}>{data.name}</div>
+      <div style={{ fontSize: 14, fontWeight: 600, color: '#E5E7EB', marginBottom: 4, lineHeight: 1.3 }}>{data.name}</div>
       <div style={{ fontSize: 13, color: '#6B7280', lineHeight: 1.6 }}>{data.desc}</div>
     </div>
   );
@@ -191,39 +186,140 @@ function PillboxCell({ data }: { data: CellData }) {
         border: '0.5px solid rgba(99,102,241,0.28)',
         borderRadius: 10,
         padding: '12px 14px',
-        height: '100%',
-        boxSizing: 'border-box',
+        flex: 1,
       }}
     >
       <Tag type={data.tag} />
-      <div style={{ fontSize: 14, fontWeight: 600, color: '#818CF8', marginBottom: 5, lineHeight: 1.3 }}>{data.name}</div>
+      <div style={{ fontSize: 14, fontWeight: 600, color: '#818CF8', marginBottom: 4, lineHeight: 1.3 }}>{data.name}</div>
       <div style={{ fontSize: 13, color: '#6B7280', lineHeight: 1.6 }}>{data.desc}</div>
     </div>
   );
 }
 
-const PLATFORM_LABEL_WOO: React.CSSProperties = {
-  fontSize: 11,
-  fontWeight: 600,
-  letterSpacing: '0.07em',
-  textTransform: 'uppercase',
-  color: '#4B5563',
-  marginBottom: 5,
-  textAlign: 'center',
-};
+// Flatten all rows into individual carousel items
+const ITEMS = SECTIONS.flatMap((section) =>
+  section.rows.map((row) => ({ ...row, section: section.label }))
+);
 
-const PLATFORM_LABEL_PILLBOX: React.CSSProperties = {
-  fontSize: 11,
-  fontWeight: 600,
-  letterSpacing: '0.07em',
-  textTransform: 'uppercase',
-  color: '#6366F1',
-  marginBottom: 5,
-  textAlign: 'center',
-};
+function SlideContent({ item, isMobile }: { item: typeof ITEMS[number]; isMobile: boolean }) {
+  return (
+    <div style={{ padding: '16px 18px 20px' }}>
+      {/* Capability label */}
+      <div
+        style={{
+          fontSize: 12,
+          fontWeight: 600,
+          color: '#6B7280',
+          textTransform: 'uppercase',
+          letterSpacing: '0.08em',
+          textAlign: 'center',
+          marginBottom: 10,
+        }}
+      >
+        {item.capability}
+      </div>
+
+      {isMobile ? (
+        /* Mobile: stacked tiles, each labelled */
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          <div>
+            <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: '#4B5563', textAlign: 'center', marginBottom: 6 }}>
+              WooCommerce
+            </div>
+            <WooCell data={item.woo} />
+          </div>
+          <div>
+            <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: '#6366F1', textAlign: 'center', marginBottom: 6 }}>
+              Pillbox platform
+            </div>
+            <PillboxCell data={item.custom} />
+          </div>
+        </div>
+      ) : (
+        /* Desktop: side by side with column headers */
+        <>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 8 }}>
+            <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: '#4B5563', textAlign: 'center' }}>
+              WooCommerce
+            </div>
+            <div style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.07em', color: '#6366F1', textAlign: 'center' }}>
+              Pillbox platform
+            </div>
+          </div>
+          <div style={{ display: 'flex', gap: 8, alignItems: 'stretch' }}>
+            <WooCell data={item.woo} />
+            <PillboxCell data={item.custom} />
+          </div>
+        </>
+      )}
+    </div>
+  );
+}
+
+const MOBILE_BREAKPOINT = 768;
 
 export function EngineeringEffortPanel() {
-  const isMobile = useIsMobile();
+  // Detect mobile synchronously in useLayoutEffect so it's known before
+  // the measurement pass runs — avoids the short→tall height jump on mobile.
+  const [isMobile, setIsMobile] = useState(false);
+  const [isMobileKnown, setIsMobileKnown] = useState(false);
+  const [current, setCurrent] = useState(0);
+  const [direction, setDirection] = useState(1);
+  const [bodyHeight, setBodyHeight] = useState<number | undefined>(undefined);
+  const measureRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number>(0);
+  const touchStartY = useRef<number>(0);
+
+  useLayoutEffect(() => {
+    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT);
+    setIsMobileKnown(true);
+  }, []);
+
+  // Re-measure when mobile/desktop switches (orientation change, resize)
+  useEffect(() => {
+    const handler = () => {
+      const next = window.innerWidth < MOBILE_BREAKPOINT;
+      if (next !== isMobile) {
+        setIsMobile(next);
+        setBodyHeight(undefined);
+      }
+    };
+    window.addEventListener('resize', handler);
+    return () => window.removeEventListener('resize', handler);
+  }, [isMobile]);
+
+  useLayoutEffect(() => {
+    if (!isMobileKnown || bodyHeight || !measureRef.current) return;
+    let max = 0;
+    for (const child of Array.from(measureRef.current.children)) {
+      max = Math.max(max, (child as HTMLElement).offsetHeight);
+    }
+    if (max > 0) setBodyHeight(max);
+  });
+
+  const goTo = (index: number) => {
+    setDirection(index > current ? 1 : -1);
+    setCurrent(index);
+  };
+
+  const prev = () => { if (current > 0) goTo(current - 1); };
+  const next = () => { if (current < ITEMS.length - 1) goTo(current + 1); };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    const dx = e.changedTouches[0].clientX - touchStartX.current;
+    const dy = e.changedTouches[0].clientY - touchStartY.current;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+      if (dx < 0) next();
+      else prev();
+    }
+  };
+
+  const item = ITEMS[current];
 
   return (
     <div
@@ -233,154 +329,164 @@ export function EngineeringEffortPanel() {
         width: '100%',
         maxWidth: 760,
         margin: '0 auto',
+        display: 'flex',
+        flexDirection: 'column',
         overflow: 'hidden',
       }}
     >
-      {/* Inner: scrolls on desktop, flows naturally on mobile */}
+      {/* Header: legend + nav */}
       <div
-        className="hide-scrollbar"
         style={{
-          overflowY: isMobile ? 'visible' : 'auto',
-          maxHeight: isMobile ? 'none' : '76vh',
-          padding: '18px 18px 28px',
+          padding: '14px 18px 12px',
+          borderBottom: '0.5px solid rgba(255,255,255,0.07)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          gap: 12,
+          flexShrink: 0,
         }}
       >
         {/* Legend */}
-        <div
-          style={{
-            display: 'flex',
-            gap: 6,
-            flexWrap: 'wrap',
-            marginBottom: 16,
-            paddingBottom: 14,
-            borderBottom: '0.5px solid rgba(255,255,255,0.07)',
-          }}
-        >
-          <span style={{ fontSize: 12, color: '#4B5563', fontWeight: 500, alignSelf: 'center', marginRight: 4 }}>Effort level:</span>
+        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', alignItems: 'center' }}>
+          <span style={{ fontSize: 11, color: '#4B5563', fontWeight: 500, marginRight: 2 }}>Effort:</span>
           {(Object.keys(TAG_CONFIG) as TagType[]).map((type) => (
             <Tag key={type} type={type} />
           ))}
         </div>
 
-        {/* Column headers — desktop only */}
-        {!isMobile && (
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 6, padding: '0 2px' }}>
-            <div style={PLATFORM_LABEL_WOO}>WooCommerce</div>
-            <div style={PLATFORM_LABEL_PILLBOX}>Pillbox platform</div>
-          </div>
-        )}
-
-        {/* Sections */}
-        {SECTIONS.map((section, si) => (
-          <div key={si} style={{ marginBottom: 6 }}>
-            {/* Section divider + label */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                margin: si === 0 ? '8px 0 10px' : '18px 0 10px',
-                position: 'relative',
-              }}
-            >
-              <div style={{ height: '0.5px', width: 10, background: 'rgba(255,255,255,0.1)', flexShrink: 0 }} />
-              <span
-                style={{
-                  fontSize: 11,
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  color: '#374151',
-                  whiteSpace: 'nowrap',
-                  position: 'absolute',
-                  left: '50%',
-                  transform: 'translateX(-50%)',
-                }}
-              >
-                {section.label}
-              </span>
-              <div style={{ height: '0.5px', flex: 1, background: 'rgba(255,255,255,0.06)' }} />
-            </div>
-
-            {/* Rows */}
-            {section.rows.map((row, ri) => (
-              <div key={ri} style={{ marginBottom: 10 }}>
-                {/* Capability label */}
-                <div
-                  style={{
-                    fontSize: 12,
-                    fontWeight: 600,
-                    color: '#6B7280',
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.06em',
-                    marginBottom: 6,
-                    padding: '0 2px',
-                  }}
-                >
-                  {row.capability}
-                </div>
-
-                {isMobile ? (
-                  /* Mobile: stacked, each card labelled */
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                    <div>
-                      <div style={PLATFORM_LABEL_WOO}>WooCommerce</div>
-                      <WooCell data={row.woo} />
-                    </div>
-                    <div>
-                      <div style={PLATFORM_LABEL_PILLBOX}>Pillbox platform</div>
-                      <PillboxCell data={row.custom} />
-                    </div>
-                  </div>
-                ) : (
-                  /* Desktop: side by side */
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, alignItems: 'stretch' }}>
-                    <WooCell data={row.woo} />
-                    <PillboxCell data={row.custom} />
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
-        ))}
-
-        {/* Summary */}
-        <div style={{ borderTop: '0.5px solid rgba(255,255,255,0.07)', marginTop: 18, paddingTop: 14 }}>
-          <div
+        {/* Nav arrows */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+          <button
+            onClick={prev}
+            disabled={current === 0}
             style={{
-              display: 'grid',
-              gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
-              gap: 8,
+              background: current === 0 ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.08)',
+              border: '0.5px solid rgba(255,255,255,0.1)',
+              borderRadius: 8,
+              width: 28,
+              height: 28,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: current === 0 ? 'not-allowed' : 'pointer',
+              opacity: current === 0 ? 0.35 : 1,
+              transition: 'opacity 0.15s',
             }}
           >
-            <div
+            <ChevronLeft size={14} color="#9CA3AF" />
+          </button>
+          <button
+            onClick={next}
+            disabled={current === ITEMS.length - 1}
+            style={{
+              background: current === ITEMS.length - 1 ? 'rgba(255,255,255,0.04)' : 'rgba(255,255,255,0.08)',
+              border: '0.5px solid rgba(255,255,255,0.1)',
+              borderRadius: 8,
+              width: 28,
+              height: 28,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: current === ITEMS.length - 1 ? 'not-allowed' : 'pointer',
+              opacity: current === ITEMS.length - 1 ? 0.35 : 1,
+              transition: 'opacity 0.15s',
+            }}
+          >
+            <ChevronRight size={14} color="#9CA3AF" />
+          </button>
+        </div>
+      </div>
+
+      {/* Carousel body — fixed to tallest slide height once measured */}
+      <div
+        style={{ position: 'relative', overflow: 'hidden', ...(bodyHeight ? { height: bodyHeight } : {}) }}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        {/* Hidden measurement pass — only once isMobile is known, so layout matches */}
+        {isMobileKnown && !bodyHeight && (
+          <div
+            ref={measureRef}
+            style={{ position: 'absolute', visibility: 'hidden', pointerEvents: 'none', top: 0, left: 0, right: 0 }}
+            aria-hidden
+          >
+            {ITEMS.map((it, i) => (
+              <SlideContent key={i} item={it} isMobile={isMobile ?? false} />
+            ))}
+          </div>
+        )}
+        <AnimatePresence mode="wait" initial={false} custom={direction}>
+          <motion.div
+            key={current}
+            custom={direction}
+            variants={{
+              enter: (d: number) => ({ x: d * 56, opacity: 0 }),
+              center: { x: 0, opacity: 1 },
+              exit: (d: number) => ({ x: d * -56, opacity: 0 }),
+            }}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.22, ease: [0.4, 0, 0.2, 1] }}
+          >
+            <SlideContent item={item} isMobile={isMobile ?? false} />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Dot indicators + labels */}
+      <div
+        style={{
+          padding: '10px 18px 14px',
+          borderTop: '0.5px solid rgba(255,255,255,0.07)',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: 8,
+          flexShrink: 0,
+        }}
+      >
+        <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap', justifyContent: 'center' }}>
+          {ITEMS.map((it, i) => (
+            <button
+              key={i}
+              onClick={() => goTo(i)}
+              title={it.capability}
               style={{
-                background: 'rgba(255,255,255,0.04)',
-                border: '0.5px solid rgba(255,255,255,0.1)',
-                borderRadius: 10,
-                padding: '14px 16px',
-                textAlign: 'center',
+                width: i === current ? 20 : 6,
+                height: 6,
+                borderRadius: 3,
+                background: i === current ? '#6366F1' : 'rgba(255,255,255,0.12)',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                transition: 'width 0.2s ease, background 0.2s ease',
               }}
-            >
-              <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.07em', color: '#4B5563', marginBottom: 8, fontWeight: 600 }}>
-                WooCommerce
-              </div>
-              <div style={{ fontSize: 14, fontWeight: 500, lineHeight: 1.55, color: '#9CA3AF' }}>{SUMMARY.woo}</div>
-            </div>
-            <div
-              style={{
-                background: 'rgba(99,102,241,0.08)',
-                border: '0.5px solid rgba(99,102,241,0.28)',
-                borderRadius: 10,
-                padding: '14px 16px',
-                textAlign: 'center',
-              }}
-            >
-              <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.07em', color: '#6366F1', marginBottom: 8, fontWeight: 600 }}>
-                Pillbox platform
-              </div>
-              <div style={{ fontSize: 14, fontWeight: 500, lineHeight: 1.55, color: '#818CF8' }}>{SUMMARY.custom}</div>
-            </div>
+            />
+          ))}
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+          <div
+            style={{
+              fontSize: 11,
+              fontWeight: 600,
+              textTransform: 'uppercase',
+              letterSpacing: '0.1em',
+              color: '#6366F1',
+            }}
+          >
+            {item.capability}
+          </div>
+          <div
+            style={{
+              fontSize: 10,
+              fontWeight: 500,
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
+              color: '#374151',
+            }}
+          >
+            {item.section}
           </div>
         </div>
       </div>

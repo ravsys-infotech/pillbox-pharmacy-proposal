@@ -1,22 +1,22 @@
 'use client';
 
 import React, { useState, useRef, useCallback } from 'react';
-import { Check, Search, ShoppingBag, Database, Zap, CheckCircle2, Clock, Star, Edit2, FileText, Upload, Shield, Server, Lock, Globe, X, ImageIcon } from 'lucide-react';
+import { Check, Search, ShoppingBag, Database, Zap, CheckCircle2, Clock, Star, Edit2, FileText, Upload, Shield, Server, Lock, Globe, X, ImageIcon, TrendingUp, Users, BarChart2, MousePointerClick } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { PillboxLogo } from '@/components/pillbox-logo';
 
 export const Module1Right = () => (
-  <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] p-8 w-full max-w-md mx-auto">
-    <h3 className="text-[11px] uppercase tracking-[0.12em] text-[#22C55E] font-semibold mb-6">Platform At A Glance</h3>
-    <div className="grid grid-cols-2 gap-4 mb-6">
+  <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] p-5 sm:p-8 w-full max-w-md mx-auto">
+    <h3 className="text-[11px] uppercase tracking-[0.12em] text-[#22C55E] font-semibold mb-4 sm:mb-6">Platform At A Glance</h3>
+    <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-5 sm:mb-6">
       {[
         { label: "2,000+", sub: "SKUs migrated", icon: <ShoppingBag className="w-6 h-6 text-[#3B82F6]" /> },
         { label: "Multi-warehouse", sub: "MSSQL sync", icon: <Database className="w-6 h-6 text-[#8B5CF6]" /> },
         { label: "AI catalog", sub: "enrichment", icon: <Zap className="w-6 h-6 text-[#EC4899]" /> },
         { label: "WhatsApp", sub: "order notifications", icon: <CheckCircle2 className="w-6 h-6 text-[#22C55E]" /> },
       ].map((stat, i) => (
-        <div key={i} className="bg-[#F9FAFB] p-5 rounded-xl border border-[#E5E7EB] flex flex-col items-center text-center hover:shadow-md transition-shadow">
+        <div key={i} className="bg-[#F9FAFB] p-3 sm:p-5 rounded-xl border border-[#E5E7EB] flex flex-col items-center text-center hover:shadow-md transition-shadow">
           <div className="bg-white p-3 rounded-full shadow-sm mb-4">{stat.icon}</div>
           <div className="font-bold text-[#1A1A1A] text-[15px] mb-1">{stat.label}</div>
           <div className="text-[11px] text-[#6B7280]">{stat.sub}</div>
@@ -211,7 +211,7 @@ export const Module3Right = () => {
     const tile = TILE_MODULES[activeTile];
     const data = MODULE_DATA[tile.name];
     return (
-      <div style={drawerStyle} className="bg-[#0F0F1A] rounded-[16px] w-full max-w-2xl mx-auto overflow-hidden flex flex-col h-full md:h-[520px]">
+      <div style={drawerStyle} className="bg-[#0F0F1A] rounded-[16px] w-full max-w-2xl mx-auto overflow-hidden flex flex-col md:h-[480px]">
         <div className="p-5 flex items-center justify-between shrink-0">
           <div>
             <h3 className="text-[18px] font-bold text-white">{tile.name}</h3>
@@ -263,9 +263,9 @@ export const Module3Right = () => {
 
 export const Module4Right = () => (
   <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] w-full max-w-2xl mx-auto overflow-hidden flex flex-col mt-4 max-h-[80vh] lg:max-h-[600px]">
-    <div className="flex text-[11px] font-bold uppercase tracking-wider border-b border-[#E5E7EB] shrink-0">
-      <div className="w-1/2 p-4 bg-[#1A1A1A] text-white">BEFORE (WooCommerce)</div>
-      <div className="w-1/2 p-4 bg-[#22C55E] text-white">AFTER (New Platform)</div>
+    <div className="flex text-[10px] sm:text-[11px] font-bold uppercase tracking-wider border-b border-[#E5E7EB] shrink-0">
+      <div className="w-1/2 p-2.5 sm:p-4 bg-[#1A1A1A] text-white">BEFORE (WooCommerce)</div>
+      <div className="w-1/2 p-2.5 sm:p-4 bg-[#22C55E] text-white">AFTER (New Platform)</div>
     </div>
     <div className="flex-1 overflow-y-auto hide-scrollbar">
       {[
@@ -288,9 +288,9 @@ export const Module4Right = () => (
         ["Plugin-dependent security — WordPress is the most targeted CMS on the internet", "Architectural security — OWASP Top 10, encrypted at rest and in transit, PCI-DSS via RazorPay"],
         ["Shared hosting, degrades under load, a plugin update can break the site", "Built for 10,000+ MAU, sub-3s on 4G mobile, 99.9% uptime, horizontally scalable"],
       ].map((row, i) => (
-        <div key={i} className="flex border-b border-[#E5E7EB] last:border-0 text-[12px] leading-relaxed">
-          <div className="w-1/2 p-4 bg-[#FFF7ED] text-[#92400E] border-r border-[#E5E7EB]">{row[0]}</div>
-          <div className="w-1/2 p-4 bg-[#F0FDF4] text-[#166534] font-medium">{row[1]}</div>
+        <div key={i} className="flex border-b border-[#E5E7EB] last:border-0 text-[11px] sm:text-[12px] leading-relaxed">
+          <div className="w-1/2 p-2.5 sm:p-4 bg-[#FFF7ED] text-[#92400E] border-r border-[#E5E7EB]">{row[0]}</div>
+          <div className="w-1/2 p-2.5 sm:p-4 bg-[#F0FDF4] text-[#166534] font-medium">{row[1]}</div>
         </div>
       ))}
     </div>
@@ -421,13 +421,13 @@ export const Module7Right = () => (
 );
 
 export const Module8Right = () => (
-  <div className="bg-[#F9FAFB] rounded-2xl shadow-sm border border-[#E5E7EB] w-full max-w-md mx-auto overflow-hidden p-8">
-    <div className="flex items-center justify-between mb-8">
-      <div className="flex items-center text-[#8B5CF6] font-semibold text-[11px] uppercase tracking-wider"><div className="w-6 h-6 rounded-full bg-[#8B5CF6] text-white flex items-center justify-center mr-2 text-[12px]">1</div> SHIPPING</div>
-      <div className="h-px bg-[#E5E7EB] flex-1 mx-3" />
-      <div className="flex items-center text-[#6B7280] font-semibold text-[11px] uppercase tracking-wider"><div className="w-6 h-6 rounded-full bg-[#E5E7EB] text-[#6B7280] flex items-center justify-center mr-2 text-[12px]">2</div> PAYMENT</div>
-      <div className="h-px bg-[#E5E7EB] flex-1 mx-3" />
-      <div className="flex items-center text-[#6B7280] font-semibold text-[11px] uppercase tracking-wider"><div className="w-6 h-6 rounded-full bg-[#E5E7EB] text-[#6B7280] flex items-center justify-center mr-2 text-[12px]">3</div> CONFIRM</div>
+  <div className="bg-[#F9FAFB] rounded-2xl shadow-sm border border-[#E5E7EB] w-full max-w-md mx-auto overflow-hidden p-4 sm:p-8">
+    <div className="flex items-center justify-between mb-5 sm:mb-8">
+      <div className="flex items-center text-[#8B5CF6] font-semibold text-[10px] sm:text-[11px] uppercase tracking-wider"><div className="w-6 h-6 rounded-full bg-[#8B5CF6] text-white flex items-center justify-center mr-1.5 sm:mr-2 text-[12px] shrink-0">1</div> <span className="hidden xs:inline">SHIPPING</span><span className="xs:hidden">SHIP</span></div>
+      <div className="h-px bg-[#E5E7EB] flex-1 mx-2 sm:mx-3" />
+      <div className="flex items-center text-[#6B7280] font-semibold text-[10px] sm:text-[11px] uppercase tracking-wider"><div className="w-6 h-6 rounded-full bg-[#E5E7EB] text-[#6B7280] flex items-center justify-center mr-1.5 sm:mr-2 text-[12px] shrink-0">2</div> PAYMENT</div>
+      <div className="h-px bg-[#E5E7EB] flex-1 mx-2 sm:mx-3" />
+      <div className="flex items-center text-[#6B7280] font-semibold text-[10px] sm:text-[11px] uppercase tracking-wider"><div className="w-6 h-6 rounded-full bg-[#E5E7EB] text-[#6B7280] flex items-center justify-center mr-1.5 sm:mr-2 text-[12px] shrink-0">3</div> CONFIRM</div>
     </div>
 
     <div className="bg-white rounded-xl border border-[#E5E7EB] p-5 mb-4 shadow-sm">
@@ -550,8 +550,8 @@ export const Module10Right = () => (
 );
 
 export const Module11Right = () => (
-  <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] w-full max-w-2xl mx-auto p-8">
-    <div className="flex items-center justify-between mb-10 relative">
+  <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] w-full max-w-2xl mx-auto p-4 sm:p-8">
+    <div className="flex items-center justify-between mb-6 sm:mb-10 relative">
       <div className="absolute top-1/2 left-0 right-0 h-0.5 bg-[#E5E7EB] -z-10 -translate-y-1/2" />
       {[
         { step: "1", title: "RAW IMPORT", desc: "Scrape existing data" },
@@ -588,63 +588,106 @@ export const Module11Right = () => (
   </div>
 );
 
+const ADMIN_NAV = [
+  { icon: "📦", label: "Catalog", active: true },
+  { icon: "🎯", label: "Promotions" },
+  { icon: "🔍", label: "Search" },
+  { icon: "📋", label: "Orders" },
+  { icon: "💼", label: "Jobs" },
+  { icon: "📝", label: "Content" },
+  { icon: "⚙️", label: "Settings" },
+];
+
+const ADMIN_PRODUCTS = [
+  { sku: "#1042", name: "Minimalist Niacinamide 10%", cat: "Skincare", stock: "143 units", status: "Live", statusColor: "bg-[#DCFCE7] text-[#15803D]" },
+  { sku: "#1043", name: "Cetaphil Sun Light SPF 50+", cat: "Suncare", stock: "42 units", status: "Live", statusColor: "bg-[#DCFCE7] text-[#15803D]" },
+  { sku: "#1044", name: "Vitamin C Foaming Wash", cat: "Face Care", stock: "7 units", status: "Low Stock", statusColor: "bg-[#FFEDD5] text-[#C2410C]" },
+];
+
 export const Module12Right = () => (
-  <div className="bg-white rounded-2xl shadow-xl border border-[#E5E7EB] w-full max-w-3xl mx-auto overflow-hidden flex h-[500px]">
-    <div className="w-[180px] bg-[#0F0F0F] text-white flex flex-col shrink-0">
-      <div className="p-4 border-b border-white/10 font-bold text-[14px]">Admin Center</div>
-      <div className="flex-1 py-2">
-        {[
-          { icon: "📦", label: "Catalog", active: true },
-          { icon: "🎯", label: "Promotions" },
-          { icon: "🔍", label: "Search" },
-          { icon: "📋", label: "Orders" },
-          { icon: "💼", label: "Jobs" },
-          { icon: "📝", label: "Content" },
-          { icon: "⚙️", label: "Settings" },
-        ].map((item, i) => (
-          <div key={i} className={`flex items-center px-4 py-2.5 text-[12px] cursor-pointer ${item.active ? 'bg-[#1E1B3A] text-white border-l-2 border-[#8B5CF6]' : 'text-[#9CA3AF] hover:bg-white/5 hover:text-white'}`}>
-            <span className="mr-3">{item.icon}</span> {item.label}
+  <div className="bg-white rounded-2xl shadow-xl border border-[#E5E7EB] w-full max-w-3xl mx-auto overflow-hidden">
+    {/* Mobile layout */}
+    <div className="flex flex-col md:hidden" style={{ maxHeight: '480px' }}>
+      <div className="bg-[#0F0F0F] px-4 py-3 flex items-center justify-between shrink-0">
+        <span className="text-white font-bold text-[14px]">Admin Center</span>
+        <button className="bg-white/10 text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">+ Add Product</button>
+      </div>
+      <div className="bg-[#0F0F0F] px-3 pb-3 flex gap-1.5 overflow-x-auto hide-scrollbar shrink-0">
+        {ADMIN_NAV.map((item, i) => (
+          <div key={i} className={`flex items-center px-3 py-2 rounded-lg text-[11px] whitespace-nowrap cursor-pointer shrink-0 ${item.active ? 'bg-[#1E1B3A] text-white border border-[#7C3AED]/50' : 'text-[#9CA3AF]'}`}>
+            <span className="mr-1.5">{item.icon}</span>{item.label}
+          </div>
+        ))}
+      </div>
+      <div className="p-3 border-b border-[#E5E7EB] bg-white flex justify-between items-center shrink-0">
+        <h2 className="text-[13px] font-bold text-[#1A1A1A]">Products</h2>
+        <span className="text-[10px] text-[#6B7280] font-medium">Tap a row to edit</span>
+      </div>
+      <div className="flex-1 overflow-y-auto p-3 bg-[#F9FAFB] space-y-2">
+        {ADMIN_PRODUCTS.map((product, i) => (
+          <div key={i} className="bg-white border border-[#E5E7EB] rounded-xl p-3 flex items-center justify-between shadow-sm">
+            <div className="flex-1 min-w-0 mr-3">
+              <div className="flex items-center gap-2 mb-1">
+                <span className="text-[10px] font-mono text-[#9CA3AF]">{product.sku}</span>
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${product.statusColor}`}>● {product.status}</span>
+              </div>
+              <div className="text-[13px] font-bold text-[#1A1A1A] truncate">{product.name}</div>
+              <div className="text-[11px] text-[#6B7280] mt-0.5">{product.cat} · {product.stock}</div>
+            </div>
+            <span className="text-[11px] font-semibold text-[#8B5CF6] shrink-0 cursor-pointer">Edit</span>
           </div>
         ))}
       </div>
     </div>
-    <div className="flex-1 bg-[#F9FAFB] flex flex-col min-w-0">
-      <div className="p-5 border-b border-[#E5E7EB] bg-white flex justify-between items-center shrink-0">
-        <h2 className="text-[16px] font-bold text-[#1A1A1A]">Products</h2>
-        <button className="bg-[#1A1A1A] text-white px-4 py-1.5 rounded-lg text-[12px] font-bold">+ Add Product</button>
+
+    {/* Desktop layout */}
+    <div className="hidden md:block bg-[#0F0F0F] rounded-2xl overflow-hidden">
+      {/* Header */}
+      <div className="px-5 py-3.5 flex items-center justify-between border-b border-white/8">
+        <span className="text-white font-bold text-[15px]">Admin Center</span>
+        <button className="bg-white/10 text-white px-3 py-1.5 rounded-lg text-[11px] font-bold">+ Add Product</button>
       </div>
-      <div className="p-5 flex-1 overflow-auto">
-        <div className="min-w-[600px]">
-          <table className="w-full text-left text-[12px] table-fixed">
-            <thead>
-              <tr className="text-[#6B7280] border-b border-[#E5E7EB]">
-                <th className="pb-3 font-semibold w-[60px]">SKU</th>
-                <th className="pb-3 font-semibold w-[160px]">Name</th>
-                <th className="pb-3 font-semibold w-[90px]">Category</th>
-                <th className="pb-3 font-semibold w-[70px]">Stock</th>
-                <th className="pb-3 font-semibold w-[70px]">Status</th>
-                <th className="pb-3 font-semibold w-[80px] text-right">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr className="border-b border-[#E5E7EB] bg-white">
-                <td className="py-3 font-mono text-[#6B7280] truncate pr-2">#1042</td>
-                <td className="py-3 font-bold text-[#1A1A1A] truncate pr-2">Minimalist Niacinamide 10%</td>
-                <td className="py-3 text-[#6B7280] truncate pr-2">Skincare</td>
-                <td className="py-3 font-medium text-[#1A1A1A] truncate pr-2">143 units</td>
-                <td className="py-3"><span className="text-[#15803D] bg-[#DCFCE7] px-2 py-0.5 rounded-full font-bold text-[10px] whitespace-nowrap">● Live</span></td>
-                <td className="py-3 text-right text-[#8B5CF6] font-semibold cursor-pointer whitespace-nowrap">Edit <span className="text-[#E5E7EB] mx-1">|</span> View</td>
-              </tr>
-              <tr className="border-b border-[#E5E7EB] bg-[#F9FAFB]">
-                <td className="py-3 font-mono text-[#6B7280] truncate pr-2">#1043</td>
-                <td className="py-3 font-bold text-[#1A1A1A] truncate pr-2">Cetaphil Sun Light SPF 50+</td>
-                <td className="py-3 text-[#6B7280] truncate pr-2">Suncare</td>
-                <td className="py-3 font-medium text-[#1A1A1A] truncate pr-2">42 units</td>
-                <td className="py-3"><span className="text-[#15803D] bg-[#DCFCE7] px-2 py-0.5 rounded-full font-bold text-[10px] whitespace-nowrap">● Live</span></td>
-                <td className="py-3 text-right text-[#8B5CF6] font-semibold cursor-pointer whitespace-nowrap">Edit <span className="text-[#E5E7EB] mx-1">|</span> View</td>
-              </tr>
-            </tbody>
-          </table>
+      {/* Nav tabs */}
+      <div className="px-4 pt-3 pb-2 flex gap-1.5 border-b border-white/8">
+        {ADMIN_NAV.map((item, i) => (
+          <div key={i} className={`flex items-center px-3 py-1.5 rounded-lg text-[11px] whitespace-nowrap cursor-pointer ${item.active ? 'bg-[#1E1B3A] text-white border border-[#7C3AED]/50' : 'text-[#6B7280] hover:text-white'}`}>
+            <span className="mr-1.5">{item.icon}</span>{item.label}
+          </div>
+        ))}
+      </div>
+      {/* Body */}
+      <div className="p-4 grid grid-cols-5 gap-4">
+        {/* Left: product cards */}
+        <div className="col-span-3 space-y-2">
+          <div className="text-[10px] uppercase tracking-[0.1em] text-[#4B5563] font-bold mb-3">Products — Catalog</div>
+          {ADMIN_PRODUCTS.map((product, i) => (
+            <div key={i} className="bg-[#1A1A2E] border border-white/8 rounded-xl p-3 flex items-center justify-between">
+              <div className="flex-1 min-w-0 mr-3">
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] font-mono text-[#4B5563]">{product.sku}</span>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${product.statusColor}`}>● {product.status}</span>
+                </div>
+                <div className="text-[13px] font-semibold text-white truncate">{product.name}</div>
+                <div className="text-[11px] text-[#6B7280] mt-0.5">{product.cat} · {product.stock}</div>
+              </div>
+              <span className="text-[11px] font-semibold text-[#8B5CF6] shrink-0 cursor-pointer">Edit</span>
+            </div>
+          ))}
+        </div>
+        {/* Right: stats + pending */}
+        <div className="col-span-2 flex flex-col gap-3">
+          <div className="text-[10px] uppercase tracking-[0.1em] text-[#4B5563] font-bold mb-1">Quick Stats</div>
+          {[
+            { label: "Total Products", value: "2,847", color: "#8B5CF6" },
+            { label: "Active Promos", value: "3", color: "#22C55E" },
+            { label: "Pending Reviews", value: "8", color: "#F59E0B" },
+            { label: "Open Jobs", value: "4", color: "#3B82F6" },
+          ].map((stat, i) => (
+            <div key={i} className="bg-[#1A1A2E] border border-white/8 rounded-xl px-3 py-2.5 flex items-center justify-between">
+              <span className="text-[11px] text-[#9CA3AF]">{stat.label}</span>
+              <span className="text-[14px] font-extrabold" style={{ color: stat.color }}>{stat.value}</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -806,11 +849,11 @@ export const Module16Right = () => (
 
       <div className="mt-5 bg-[#F9FAFB] border border-[#E5E7EB] rounded-xl p-4 text-center">
         <div className="text-[10px] font-bold text-[#1A1A1A] uppercase tracking-wider mb-2">Infrastructure Cost Estimate</div>
-        <div className="text-[11px] text-[#6B7280] font-medium flex justify-center space-x-4">
+        <div className="text-[11px] text-[#6B7280] font-medium flex flex-wrap justify-center gap-x-3 gap-y-1">
           <span>1K MAU → ~₹10K/mo</span>
-          <span className="text-[#E5E7EB]">|</span>
+          <span className="text-[#E5E7EB] hidden sm:inline">|</span>
           <span>10K MAU → ~₹25K/mo</span>
-          <span className="text-[#E5E7EB]">|</span>
+          <span className="text-[#E5E7EB] hidden sm:inline">|</span>
           <span>100K MAU → ~₹50K/mo</span>
         </div>
         <div className="text-[9px] text-[#9CA3AF] mt-2 italic">(Client bears infra cost post-launch. 3 months support included.)</div>
@@ -822,3 +865,92 @@ export const Module16Right = () => (
     </div>
   </div>
 );
+
+export const Module17Right = () => {
+  const ga4Capabilities = [
+    "Marketing attribution & campaign tracking",
+    "Conversion funnels & goal completions",
+    "Audience demographics & acquisition source",
+    "Google Ads & Search Console integration",
+  ];
+
+  const posthogCapabilities = [
+    "Session recordings & user behaviour flows",
+    "Feature usage tracking & adoption metrics",
+    "Retention cohort analysis",
+    "Product funnel drop-off identification",
+  ];
+
+  return (
+    <div className="bg-white rounded-2xl shadow-sm border border-[#E5E7EB] w-full max-w-xl mx-auto overflow-hidden">
+      <div className="p-5 border-b border-[#E5E7EB] bg-[#F9FAFB]">
+        <h3 className="text-[11px] uppercase tracking-[0.12em] text-[#22C55E] font-semibold">Two Complementary Analytics Layers</h3>
+      </div>
+
+      {/* Two-layer split */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 divide-y sm:divide-y-0 sm:divide-x divide-[#E5E7EB]">
+        {/* GA4 + GTM */}
+        <div className="p-5">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-7 h-7 rounded-lg bg-[#FEF3C7] flex items-center justify-center shrink-0">
+              <BarChart2 className="w-4 h-4 text-[#F59E0B]" />
+            </div>
+            <div>
+              <div className="text-[12px] font-extrabold text-[#1A1A1A] leading-none">GA4 + GTM</div>
+            </div>
+          </div>
+          <div className="text-[10px] font-semibold text-[#F59E0B] uppercase tracking-wider mb-3">Marketing Layer</div>
+          <ul className="space-y-2">
+            {ga4Capabilities.map((cap, i) => (
+              <li key={i} className="flex items-start gap-2 text-[11px] text-[#6B7280] leading-relaxed">
+                <span className="text-[#F59E0B] mt-0.5 shrink-0">•</span> {cap}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* PostHog */}
+        <div className="p-5">
+          <div className="flex items-center gap-2 mb-1">
+            <div className="w-7 h-7 rounded-lg bg-[#F3E8FF] flex items-center justify-center shrink-0">
+              <MousePointerClick className="w-4 h-4 text-[#8B5CF6]" />
+            </div>
+            <div>
+              <div className="text-[12px] font-extrabold text-[#1A1A1A] leading-none">PostHog</div>
+            </div>
+          </div>
+          <div className="text-[10px] font-semibold text-[#8B5CF6] uppercase tracking-wider mb-3">Product Layer</div>
+          <ul className="space-y-2">
+            {posthogCapabilities.map((cap, i) => (
+              <li key={i} className="flex items-start gap-2 text-[11px] text-[#6B7280] leading-relaxed">
+                <span className="text-[#8B5CF6] mt-0.5 shrink-0">•</span> {cap}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      {/* Combined view */}
+      <div className="border-t border-[#E5E7EB] px-5 py-4 bg-[#F9FAFB]">
+        <div className="text-[10px] uppercase tracking-wider text-[#6B7280] font-bold mb-3">Together They Answer</div>
+        <div className="grid grid-cols-1 gap-2">
+          {[
+            { q: "Where are customers coming from?", tag: "GA4", color: "#F59E0B", bg: "#FEF3C7" },
+            { q: "Where in the funnel are they dropping off?", tag: "Both", color: "#3B82F6", bg: "#EFF6FF" },
+            { q: "Which features do they actually use?", tag: "PostHog", color: "#8B5CF6", bg: "#F3E8FF" },
+            { q: "Are returning users engaging with loyalty?", tag: "PostHog", color: "#8B5CF6", bg: "#F3E8FF" },
+          ].map((item, i) => (
+            <div key={i} className="flex items-center justify-between bg-white border border-[#E5E7EB] rounded-lg px-3 py-2.5 shadow-sm">
+              <span className="text-[11px] text-[#1A1A1A] font-medium">{item.q}</span>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 ml-3" style={{ color: item.color, background: item.bg }}>{item.tag}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="bg-[#1E1B3A] px-5 py-3 text-center">
+        <div className="text-[11px] text-[#A78BFA] font-medium">Complete picture of both marketing performance and product experience — from first click to repeat purchase.</div>
+      </div>
+    </div>
+  );
+};
