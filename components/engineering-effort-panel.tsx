@@ -118,6 +118,11 @@ const SECTIONS: Section[] = [
         woo: { tag: 'install', name: 'Use WordPress WP-Admin', desc: 'Default admin UI. Each plugin adds its own disconnected menu. No unified view, no custom workflows.' },
         custom: { tag: 'engineer', name: 'Build the command & control panel', desc: 'A single admin interface designed and built to cover every operational surface of the platform — product catalog CRUD, promotional banner scheduling, loyalty rule configuration, inventory buffer thresholds, search boost overrides, CMS content publishing, and candidate pipeline management. Non-technical Pillbox staff can run every part of the business without touching code or switching between disconnected tools.' },
       },
+      {
+        capability: 'Analytics',
+        woo: { tag: 'install', name: 'Install Site Kit by Google', desc: 'Site Kit by Google installed. The orders section surfaced basic traffic attribution — Organic: Google, Instagram, or Direct. No event tracking, no conversion funnels, no session recordings, no product-level insights.' },
+        custom: { tag: 'engineer', name: 'Instrument a dual-layer analytics stack', desc: 'GA4 and Google Tag Manager wired at the architecture level — not added as an afterthought. Every conversion event, funnel step, and campaign attribution point designed upfront and instrumented deliberately. PostHog integrated in parallel as the product analytics layer, capturing session recordings, user behaviour flows, feature flags, and retention cohorts. The two systems complement each other: GA4 answers marketing questions, PostHog answers product questions. Neither works this way out of the box — both require original implementation work.' },
+      },
     ],
   },
   {
