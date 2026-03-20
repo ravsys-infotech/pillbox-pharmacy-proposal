@@ -55,7 +55,7 @@ const MODULES = [
     navLabel: "Engineering Effort",
     title: "Engineering Effort",
     subtitle: "Why building a custom platform is a fundamentally different category of work from installing WooCommerce.",
-    features: ["15 Capabilities Benchmarked", "WooCommerce vs Pillbox: Side-by-Side", "Original Engineering, Zero Plugins", "Full Platform Ownership"],
+    features: ["16 Capabilities Benchmarked", "WooCommerce vs Pillbox: Side-by-Side", "Original Engineering, Zero Plugins", "Full Platform Ownership"],
     insight: "WooCommerce is assembled from plugins. The Pillbox platform is engineered from scratch — every capability designed, built, and tested as original code.",
     panel: EngineeringEffortPanel,
   },

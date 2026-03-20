@@ -76,70 +76,54 @@ export const Module2Right = () => {
   );
 };
 
-const MODULE_DATA: Record<string, { description: string; badges: string[] }> = {
+const MODULE_DATA: Record<string, { description: string }> = {
   STOREFRONT: {
     description: "The customer-facing shell of the entire platform. Built mobile-first as a Progressive Web App, the Storefront delivers the homepage experience \u2014 promotional banners with scheduled campaigns, Featured Products, Popular Categories, and a Shop by Brands slider. Navigation is fully accessible via a hamburger menu across all devices and browsers. Every surface is optimised for smartphone users first, with full compatibility across Chrome, Safari, Firefox, and Edge.",
-    badges: ["FR-120", "FR-121", "FR-122", "FR-123", "FR-124", "NFR-10", "NFR-11"],
   },
   CATALOG: {
     description: "The foundation of the entire platform. All 2,000+ products are migrated from the existing website and run through an AI pipeline that generates clean, SEO-optimised descriptions, assigns categories, tags, health concern labels, gender attributes, and search keywords to every SKU. Product images are automatically resized and background-removed for a uniform, professional appearance. Nothing goes live without a human review \u2014 every AI-generated output passes through a mandatory admin approval workflow before publishing. Admins have full ongoing control to create, edit, and delete products, categories, brands, and tags at any time.",
-    badges: ["FR-701", "FR-702", "FR-703", "FR-704", "FR-705", "FR-710", "FR-711", "FR-712", "FR-713"],
   },
   DISCOVERY: {
     description: "Customers can find what they need even when they don\u2019t know exactly what to search for. The search engine understands natural language, tolerates typos, and returns relevant results in under 300ms. Filters update dynamically based on what\u2019s on screen \u2014 searching \u2018Shampoo\u2019 only shows hair-related filters. When no results match, related products are shown instead of a blank page. Structured browsing pages let customers shop by Category, Brand, Health Concern, Gender, and Best Sellers. Admins can boost specific products or brands for any search term.",
-    badges: ["FR-201", "FR-202", "FR-203", "FR-204", "FR-205", "FR-206", "FR-210", "FR-211", "FR-212", "FR-213", "FR-214", "NFR-03"],
   },
   RECOMMENDATIONS: {
     description: "Intelligently surfaces the right products at the right moment to increase basket size. On every Product Detail Page, customers see Frequently Bought Together items drawn from real order history, and Similar Products based on shared ingredients or use cases. On the main cart page, two recommendation layers activate \u2014 low-cost impulse-buy suggestions and complementary items based on what\u2019s already in the cart. Recommendations are deliberately absent from the mini cart and checkout to keep those flows distraction-free.",
-    badges: ["FR-103", "FR-104", "FR-112", "FR-113"],
   },
   RETENTION: {
     description: "Turns one-time buyers into repeat customers. Every qualifying purchase earns Pillbox Points, visible on a dedicated loyalty dashboard in the customer\u2019s account. Points are redeemable as a direct discount at checkout \u2014 no monetary value is stored, keeping the system outside RBI regulatory scope. A referral engine gives every customer a unique shareable link \u2014 when a referred friend makes their first purchase, both parties receive a coupon reward. All earning rules and reward values are fully configurable by the admin. The best available discount is automatically applied at checkout without the customer needing to enter a code.",
-    badges: ["FR-320", "FR-321", "FR-322", "FR-404"],
   },
   ACCOUNTS: {
     description: "Every customer gets a secure, personalised account. Registration and login are supported via Google, Facebook, Phone OTP, and Email/Password. Visitors can browse and add to cart freely \u2014 login is only required at checkout. Once logged in, customers manage their profile, save multiple shipping addresses, and access their complete order history. Any past order can be reordered in a single click, adding all items directly to the current cart.",
-    badges: ["FR-301", "FR-302", "FR-310", "FR-311", "FR-312", "FR-313"],
   },
   INVENTORY: {
     description: "Bridges the digital storefront with Pillbox\u2019s existing Windows-based inventory system. Stock levels across all warehouse and store locations are synced in real time, ensuring what\u2019s shown online accurately reflects what\u2019s physically available \u2014 preventing overselling. Each product can have an admin-configured stock buffer that holds back units for walk-in customers. When an order is placed, the system automatically routes it to the nearest warehouse with available stock based on the customer\u2019s delivery address, with re-allocation support if the assigned warehouse changes.",
-    badges: ["FR-501", "FR-502", "FR-503", "FR-504", "FR-505"],
   },
   ORDERS: {
     description: "Covers the complete journey from cart to delivered order. Visitors can add items to cart without logging in \u2014 authentication is only required at the point of checkout. The cart is accessible as a slide-out mini drawer or a full cart page with quantity controls and subtotal view. Checkout is powered by RazorPay, supporting UPI, credit and debit cards, and net banking, with Loyalty Points redeemable as a partial payment. Shipping costs and estimated delivery times are calculated live based on the customer\u2019s address and the nearest stocked warehouse. Post-purchase, customers can track their order in real time via a self-service tracking page or directly from their order history. The platform is built to integrate with multiple shipping carriers for rate calculation, label generation, and pickup scheduling. A Contact Us page captures medical queries, order assistance requests, and B2B leads directly into the admin panel.",
-    badges: ["FR-105", "FR-110", "FR-111", "FR-401", "FR-402", "FR-403", "FR-405", "FR-601", "FR-602", "FR-620", "FR-621", "FR-630"],
   },
   NOTIFICATIONS: {
     description: "Keeps customers informed at every stage of their order without any manual effort. Automated one-way WhatsApp messages are triggered at Order Confirmed, Shipped, Out for Delivery, and Delivered. A PDF invoice is generated and sent via WhatsApp on confirmation. If a payment fails, a prompt is sent immediately to encourage retry. Abandoned carts trigger a recovery reminder to bring customers back. A delivery tracking link is also dispatched automatically. Separately, an email newsletter subscription form connects to an email marketing service for campaigns and promotions.",
-    badges: ["FR-610", "FR-611", "FR-612", "FR-613", "FR-614", "FR-615", "FR-805", "FR-903"],
   },
   ADMIN: {
     description: "The single backstage interface for the entire platform. Admins manage products, categories, brands, tags, banners, promotions, coupons, loyalty rules, stock buffers, and search boosts from one centralised panel. AI-generated catalog content sits in a review queue awaiting human approval before anything goes live. Contact form submissions are stored and accessible. The candidate pipeline for job applications is fully managed here. Every configurable aspect of the platform \u2014 from homepage layout to fulfillment rules \u2014 is controlled through the Admin panel.",
-    badges: ["FR-204", "FR-321", "FR-322", "FR-503", "FR-630", "FR-704", "FR-705", "FR-710", "FR-711", "FR-712", "FR-713", "FR-904"],
   },
   CMS: {
     description: "Gives the Pillbox team full control over content without touching a line of code. A headless CMS powers blog posts, wellness articles, and marketing pages \u2014 publishable by non-technical staff at any time. Every product, category, and content page has editable meta titles and meta descriptions. Open Graph tags are applied across the board, ensuring rich, branded previews when links are shared on WhatsApp, Facebook, or any social platform.",
-    badges: ["FR-801", "FR-803", "FR-804"],
   },
   TALENT: {
     description: "A self-contained recruitment system built into the platform. A public Careers page lists open positions organised by department \u2014 Pharmacist, Logistics, Admin, and more. Each listing has its own detail page with an online application form that accepts CV uploads. Applicants receive an automated confirmation email on submission. Listings automatically expire when positions are filled or dates pass. The admin panel includes a full candidate dashboard to sort, filter, and track every applicant through the pipeline.",
-    badges: ["FR-901", "FR-902", "FR-903", "FR-904", "FR-905"],
   },
   SEO: {
     description: "Search engine discoverability is built into the platform from the ground up, not added at the end. Every product page has an SEO-friendly URL, meta title, meta description, and Open Graph tags. Product Schema structured data exposes pricing, availability, and ratings directly in Google search results. AI-generated descriptions and keywords are optimised for organic discoverability at the product level. XML sitemaps are automatically generated and kept current as new products are added. The platform is built to meet Core Web Vitals standards, a direct ranking factor for Google.",
-    badges: ["FR-102", "FR-802", "FR-803", "FR-804", "FR-806", "FR-807"],
   },
   ANALYTICS: {
     description: "Two complementary analytics layers working in parallel. Google Analytics 4 and Google Tag Manager handle marketing attribution, campaign tracking, conversion funnels, and audience insights \u2014 feeding into the broader Google ecosystem. PostHog sits alongside it as a product analytics layer, capturing session recordings, user behaviour flows, feature usage, and retention cohorts. Together they give the Pillbox team a complete picture of both marketing performance and product experience, with the data needed to make informed decisions at every stage.",
-    badges: [],
   },
   SECURITY: {
     description: "Security is not a feature \u2014 it is a baseline. All user data including personal information and loyalty balances is encrypted at rest and in transit. Payment processing is PCI-DSS compliant end to end via RazorPay. The platform is hardened against the OWASP Top 10 \u2014 SQL injection, XSS, CSRF, and related attack vectors. User sessions are managed with secure tokens, appropriate expiry windows, and refresh mechanisms to prevent unauthorised access.",
-    badges: ["NFR-04", "NFR-05", "NFR-06", "NFR-07"],
   },
   INFRASTRUCTURE: {
     description: "The backbone that everything else runs on. The platform is architected to support a minimum of 10,000 monthly active users from launch, with horizontal scaling built in to grow well beyond that as Pillbox expands. Page load targets are under 3 seconds on a standard 4G mobile connection across all primary flows. Uptime targets 99.9% availability. The codebase is written to clean architecture principles with clear separation of concerns, comprehensive API documentation, and a structure designed for seamless handover to any future development team.",
-    badges: ["NFR-01", "NFR-02", "NFR-08", "NFR-09", "NFR-12", "NFR-13"],
   },
 };
 
@@ -224,19 +208,6 @@ export const Module3Right = () => {
         <div className="border-b border-[#1E1B3A]" />
         <div className="flex-1 overflow-y-auto p-5 hide-scrollbar">
           <p className="text-[14px] text-[#E5E7EB] leading-[1.7]">{data.description}</p>
-          <div className="border-b border-[#1E1B3A] my-4" />
-          {data.badges.length > 0 ? (
-            <>
-              <div className="text-[10px] uppercase tracking-[0.12em] text-[#22C55E] font-semibold mb-3">Requirements Covered</div>
-              <div className="flex flex-wrap gap-2">
-                {data.badges.map((badge) => (
-                  <span key={badge} className="bg-[#2D1B69] text-[#A78BFA] text-[11px] font-semibold px-2.5 py-1 rounded-full">{badge}</span>
-                ))}
-              </div>
-            </>
-          ) : (
-            <p className="text-[13px] text-[#A78BFA] italic leading-[1.6]">Analytics tooling will be finalised during the architecture phase.</p>
-          )}
         </div>
       </div>
     );
